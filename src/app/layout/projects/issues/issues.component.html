@@ -1,0 +1,3 @@
+@for (issue of dataSource.$data | async; track issue.id) {
+  <app-issue [issue]="issue"></app-issue>
+}
