@@ -9,6 +9,8 @@ import {CreateProjectComponent} from './dialogs/create-project/create-project.co
 import {RouterModule, RouterOutlet} from '@angular/router';
 import {AsyncPipe} from '@angular/common';
 import {MatListModule} from '@angular/material/list';
+import {ListItemComponent} from '../../components/list-item/list-item.component';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-projects',
@@ -18,7 +20,9 @@ import {MatListModule} from '@angular/material/list';
     RouterOutlet,
     AsyncPipe,
     MatListModule,
-    RouterModule
+    RouterModule,
+
+    MatIcon
   ],
   templateUrl: './projects.component.html',
   host: {

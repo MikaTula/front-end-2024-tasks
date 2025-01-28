@@ -4,9 +4,25 @@
 
 <div class="projects-container">
   <mat-nav-list>
+    <div mat-subheader>Projects</div>
     @for (project of dataSource.$data | async; track project.id) {
-      <a mat-list-item routerLink="{{ project.id }}" routerLinkActive="active">{{ project.name }}</a>
+      <mat-list-item routerLink="{{ project.id }}" routerLinkActive="active">
+        <mat-icon matListItemIcon>folder</mat-icon>
+        <div matListItemTitle>{{ project.name }}</div>
+        <div matListItemLine>{{ project.code }}</div>
+      </mat-list-item>
     }
+    <mat-divider></mat-divider>
+
+    <div mat-subheader>Notes</div>
+
+    <mat-list-item>
+      <mat-icon matListItemIcon>note</mat-icon>
+      <div matListItemTitle>{{ 123 }}</div>
+      <div matListItemLine>{{ 3333 }}</div>
+    </mat-list-item>
+
+
   </mat-nav-list>
 </div>
 
