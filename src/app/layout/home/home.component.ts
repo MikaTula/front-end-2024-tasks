@@ -18,7 +18,7 @@ import {FormsModule} from '@angular/forms';
   standalone: true,
   templateUrl: './tasks.component.html'
 })
-export class TasksComponent {
+export class HomeComponent {
 
   public dataSource = new TaskDataSource();
 

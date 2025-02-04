@@ -1,7 +1,11 @@
 ﻿@use "./issue";
 @use "./issue-list";
+@use "./mat-fab";
 
 @mixin all() {
   @include issue.component();
   @include issue-list.component();
+
+  // material override
+  @include mat-fab.component();
 }
