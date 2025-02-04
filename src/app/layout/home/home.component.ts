@@ -16,7 +16,7 @@ import {FormsModule} from '@angular/forms';
     FormsModule
   ],
   standalone: true,
-  templateUrl: './tasks.component.html'
+  templateUrl: './home.component.html'
 })
 export class HomeComponent {
 
