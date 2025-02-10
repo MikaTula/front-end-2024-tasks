@@ -1,20 +1,16 @@
 <div class="cta-container">
-  <button mat-button (click)="createProject()">Create Project</button>
+  <button (click)="createProject()" mat-button>Create Project</button>
 </div>
 
 <div class="projects-container">
   <mat-nav-list>
-    <div mat-subheader>Projects</div>
+    <div mat-subheader>Projects 1234567</div>
     @for (project of dataSource.$data | async; track project.id) {
-      <mat-list-item routerLink="{{ project.id }}" routerLinkActive="active">
-        <mat-icon matListItemIcon>folder</mat-icon>
-        <div matListItemTitle>{{ project.name }}</div>
-        <div matListItemLine>{{ project.code }}</div>
-      </mat-list-item>
+      <app-project-menu-item [project]="project"></app-project-menu-item>
     }
     <mat-divider></mat-divider>
 
-    <div mat-subheader>Notes</div>
+    <div mat-subheader>Notes 22</div>
 
     <mat-list-item>
       <mat-icon matListItemIcon>note</mat-icon>
@@ -29,7 +25,7 @@
 <div class="issues-container">
   <router-outlet/>
   class="mat-fab"
-  <button mat-fab aria-label="Example icon button with a delete icon">
+  <button aria-label="Example icon button with a delete icon" mat-fab>
     <mat-icon>add</mat-icon>
   </button>
 </div>

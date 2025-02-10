@@ -11,6 +11,7 @@ import {AsyncPipe} from '@angular/common';
 import {MatListModule} from '@angular/material/list';
 
 import {MatIcon} from '@angular/material/icon';
+import {MenuItemComponent} from './menu-item/menu-item.component';
 
 @Component({
   selector: 'app-projects',
@@ -22,7 +23,8 @@ import {MatIcon} from '@angular/material/icon';
     MatListModule,
     RouterModule,
     MatIcon,
-    MatFabButton
+    MatFabButton,
+    MenuItemComponent
   ],
   templateUrl: './projects.component.html',
   standalone: true,
@@ -32,18 +34,16 @@ import {MatIcon} from '@angular/material/icon';
 })
 export class ProjectsComponent {
 
+  public dataSource = new ProjectDataSource();
+  public displayedColumns: string[] = ['id', 'code', 'name'];
   private readonly _dialog = inject(MatDialog);
   private readonly _projectService = inject(ProjectService);
-
-  public dataSource = new ProjectDataSource();
-
-  public displayedColumns: string[] = ['id', 'code', 'name'];
 
   public createProject() {
     const dialogRef = this._dialog.open(CreateProjectComponent);
 
     dialogRef.afterClosed().subscribe((request: IProjectRequest) => {
-      if(!request) return;
+      if (!request) return;
 
       // let request: IProjectRequest = {
       //   code: "TP2",
