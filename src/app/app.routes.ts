@@ -3,6 +3,7 @@ import {ProjectsComponent} from './layout/projects/projects.component';
 import {TasksComponent} from './layout/tasks/tasks.component';
 import {IssuesComponent} from './layout/projects/issues/issues.component';
 import {HomeComponent} from './layout/home/home.component';
+import {LoginComponent} from './components/auth/login-component/login.component';
 
 export const routes: Routes = [
   {
@@ -22,5 +23,14 @@ export const routes: Routes = [
   {
     path: 'tasks',
     component: TasksComponent
+  },
+  {
+    path: 'auth',
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent
+      }
+    ]
   }
 ];

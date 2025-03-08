@@ -6,7 +6,7 @@ import {MatInputModule} from '@angular/material/input';
 import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-create-project',
+  selector: 'create-create-project',
   imports: [
     MatDialogModule,
     MatButton,
@@ -39,7 +39,10 @@ export class CreateProjectComponent {
   }
 
   public onCreate() {
+    console.log('123')
     if (this.isInvalidState()) return;
+
+    console.log('this.createForm.value', this.createForm.value)
 
     this._dialogRef.close(this.createForm.value);
   }

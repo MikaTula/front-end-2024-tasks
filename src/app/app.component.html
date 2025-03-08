@@ -1,10 +1,18 @@
 <nav>
-  <h1>Our welcome app</h1>
+  <h1>Our welcome app mk1</h1>
   <a mat-button routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
   <a mat-button routerLink="projects" routerLinkActive="active">Projects</a>
   <a mat-button routerLink="tasks" routerLinkActive="active">Tasks</a>
+
+  @if (authService.isAuthorized()) {
+    <span style="white-space: nowrap">{{ authService.authData()?.name }}</span>
+  } @else {
+    @if (currentUrl() !== '/auth/login') {
+      <a mat-button routerLink="/auth/login" routerLinkActive="active">Login</a>
+    }
+  }
 </nav>
 
 <main>
-  <router-outlet />
+  <router-outlet/>
 </main>

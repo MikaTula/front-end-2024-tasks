@@ -9,10 +9,10 @@ import {FormsModule} from '@angular/forms';
 @Component({
   selector: 'app-tasks',
   imports: [
-    AsyncPipe,
+    // AsyncPipe,
     MatTableModule,
-    MatButton,
-    MatInput,
+    // MatButton,
+    // MatInput,
     FormsModule
   ],
   standalone: true,

@@ -4,10 +4,10 @@
     right: 20px;
     bottom: 20px;
     opacity: 0;
-    animation: ani 2.5s forwards;
+    animation: mat-fab-anim 2s forwards;
   }
 
-  @keyframes ani {
+  @keyframes mat-fab-anim {
     0% {opacity: 0;}
     100% {opacity: 1;}
   }

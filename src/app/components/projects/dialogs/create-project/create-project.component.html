@@ -1,12 +1,10 @@
 <h2 mat-dialog-title>Create Project</h2>
-
 <mat-dialog-content>
-
   <form [formGroup]="createForm" (ngSubmit)="onCreate()">
-
     <mat-form-field>
       <mat-label>Code</mat-label>
-      <input matInput formControlName="code" cdkFocusInitial>
+      <!--      cdkFocusInitial-->
+      <input matInput formControlName="code">
       @if (code.hasError('required')) {
         <mat-error>Email is <strong>required</strong></mat-error>
       }
@@ -25,11 +23,13 @@
       <input matInput formControlName="description">
     </mat-form-field>
 
+
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button type="submit" [disabled]="isInvalidState()">Create project</button>
+    </mat-dialog-actions>
   </form>
 
 </mat-dialog-content>
 
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="onCreate()" [disabled]="isInvalidState()">Create</button>
-</mat-dialog-actions>
+
