@@ -1,12 +1,10 @@
-Home
+@if (dataSource.isLoading()) {
+  loading...
+}
 
-<!--@if (dataSource.isLoading()) {-->
-<!--  loading...-->
-<!--}-->
-
-<!--@for (task of dataSource.connect() | async; track task) {-->
-<!--  <div>{{ task.title }}</div>-->
-<!--}-->
+<!--&lt;!&ndash;@for (task of dataSource.connect() | async; track task) {&ndash;&gt;-->
+<!--&lt;!&ndash;  <div>{{ task.title }}</div>&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
 
 <!--<mat-table [dataSource]="dataSource">-->
 
@@ -24,5 +22,8 @@ Home
 <!--  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>-->
 <!--</mat-table>-->
 
-<!--<input matInput type="text" [(ngModel)]="searchTerm">-->
-<!--<button mat-button (click)="search()">Search</button>-->
+
+<input matInput type="text" [(ngModel)]="searchTerm">
+<button mat-button (click)="search()">Search</button>
+
+Home page

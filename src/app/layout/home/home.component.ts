@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {TaskDataSource} from '../../data-sources/task.data-source';
-import {AsyncPipe} from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
 import {MatButton} from '@angular/material/button';
 import {MatInput} from '@angular/material/input';
@@ -16,7 +15,7 @@ import {FormsModule} from '@angular/forms';
     FormsModule
   ],
   standalone: true,
-  templateUrl: './tasks.component.html'
+  templateUrl: './home.component.html'
 })
 export class HomeComponent {
 

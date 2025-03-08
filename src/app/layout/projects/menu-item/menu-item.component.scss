@@ -1,0 +1,14 @@
+.app-project-menu-item {
+  &__wrap {
+    display: flex;
+  }
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #3d2f00;
+  }
+
+
+}

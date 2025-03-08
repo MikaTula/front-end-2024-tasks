@@ -1,0 +1,12 @@
+<mat-list-item>
+  <div class="app-project-menu-item__wrap">
+    @if (project().code) {
+      <div class="app-project-menu-item__icon">
+        {{ project().code }}
+      </div>
+    } @else {
+      <mat-icon matListItemIcon>label</mat-icon>
+    }
+    <div matListItemTitle>{{ project().name }}</div>
+  </div>
+</mat-list-item>
