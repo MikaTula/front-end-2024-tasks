@@ -1,0 +1,16 @@
+<mat-list-item routerLink="{{ 'projects/' + project().id }}" routerLinkActive="active">
+    <div class="project-list-item__wrap">
+        <app-code
+            class="project-list-item__wrap__code"
+            [code]="code()"
+            [name]="project().name"
+        >
+        </app-code>
+
+        <div class="project-list-item__wrap__title">
+            <div class="ellipsis">
+                {{ project().name }}
+            </div>
+        </div>
+    </div>
+</mat-list-item>

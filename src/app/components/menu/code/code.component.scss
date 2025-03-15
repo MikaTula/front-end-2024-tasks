@@ -1,0 +1,12 @@
+.code {
+    --bg-color: transparent;
+    width: 32px;
+    height: 32px;
+    border-radius: 1000px;
+    background-color: var(--bg-color);
+    color: white;
+
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}

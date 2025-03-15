@@ -1,47 +1,39 @@
-import {computed, inject, signal} from '@angular/core';
+import {inject, ResourceRef} from '@angular/core';
 import {ProjectService} from '../services/project.service';
-import {IProjectResponse} from '../interfaces/response/projects/project-response';
-import {IPageRequest} from '../interfaces/requests/page-request';
-import {ISortRequest} from '../interfaces/requests/sort-request';
-import {IProjectFilterRequest} from '../interfaces/requests/projects/project-filter-request';
-import {rxResource} from '@angular/core/rxjs-interop';
+import {IProjectFilterRequest} from '../interfaces/requests/project/project-filter-request';
+import {IProjectResponse} from '../interfaces/responses/project/project-response';
+import {BaseDataSource} from "./base.data-source";
+import {rxResource} from "@angular/core/rxjs-interop";
+import {IPageResponse} from "../interfaces/responses/page-response";
+import {ProjectRootService} from '../services/project-root.service';
 
-export class ProjectDataSource {
+export class ProjectDataSource extends BaseDataSource<IProjectResponse, IProjectFilterRequest> {
 
-  private readonly _projectService = inject(ProjectService);
+    private readonly _projectService = inject(ProjectService);
+    private readonly _projectRootService = inject(ProjectRootService);
 
-  private readonly _pageRequest = signal<IPageRequest>({
-    pageNumber: 1,
-    pageSize: 25,
-  });
+    private readonly _projectResource = rxResource({
+        request: () => ({
+            pageRequest: this.pageRequest(),
+            sortRequest: this.sortRequest(),
+            filterRequest: this.filterRequest(),
+        }),
+        loader: ({request}) =>
+            this._projectService.getProjects(request.pageRequest, request.sortRequest, request.filterRequest)
+    });
 
-  private readonly _sortRequest = signal<ISortRequest>({
-    sortBy: 'updated',
-    sortDir: 'desc',
-  });
-
-  private readonly _filterRequest = signal<IProjectFilterRequest>({});
-
-  private readonly _projectResource = rxResource({
-    request: () => ({
-      pageRequest: this._pageRequest(),
-      sortRequest: this._sortRequest(),
-      filterRequest: this._filterRequest()
-    }),
-    loader: ({request}) => {
-      return this._projectService.getProjects(request.pageRequest, request.sortRequest, request.filterRequest)
+    protected override dataResource(): ResourceRef<IPageResponse<IProjectResponse>> {
+        return this._projectResource;
     }
-  });
 
-  public readonly data = computed<IProjectResponse[]>(() => {
-    return this._projectResource.value()?.items ?? [];
-  });
+    protected override defaultFilterRequest(): IProjectFilterRequest {
+        return {
+            searchTerm: ""
+        };
+    }
 
-  public readonly isLoading = computed<boolean>(() => {
-    return this._projectResource.isLoading();
-  });
-
-  public changeFilter(filterRequest: IProjectFilterRequest): void {
-    this._filterRequest.set(filterRequest);
-  }
+    constructor() {
+        super();
+        this._projectRootService.event$.subscribe(() => this._projectResource.reload());
+    }
 }

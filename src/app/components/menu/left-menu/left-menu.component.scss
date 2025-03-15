@@ -1,0 +1,21 @@
+
+.subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 1000px;
+}
+
+.content-wrapper {
+    --count-item: 0;
+    height: 0;
+    transition: height 1s;
+    overflow: hidden;
+
+    &--active {
+        height: calc(var(--count-item) * 48px);
+        transition: height 1s;
+    }
+}
+

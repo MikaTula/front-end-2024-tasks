@@ -1,36 +1,55 @@
 import {Routes} from '@angular/router';
 import {ProjectsComponent} from './layout/projects/projects.component';
-import {TasksComponent} from './layout/tasks/tasks.component';
-import {IssuesComponent} from './layout/projects/issues/issues.component';
-import {HomeComponent} from './layout/home/home.component';
-import {LoginComponent} from './components/auth/login-component/login.component';
+import {LoginComponent} from './layout/auth/login/login.component';
+import {authGuard} from './guards/auth.guard';
+import {IssuesComponent} from './layout/issues/issues.component';
+import {SecuredAreaComponent} from './layout/secured-area/secured-area.component';
+import {AuthComponent} from './layout/auth/auth.component';
+import {SignUpComponent} from './layout/auth/sign-up/sign-up.component';
+import {ProjectDetailComponent} from './layout/projects/project/project-detail.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent
-  },
-  {
-    path: 'projects',
-    component: ProjectsComponent,
-    children: [
-      {
-        path: ':projectId',
-        component: IssuesComponent
-      }
-    ]
-  },
-  {
-    path: 'tasks',
-    component: TasksComponent
-  },
-  {
-    path: 'auth',
-    children: [
-      {
-        path: 'login',
-        component: LoginComponent
-      }
-    ]
-  }
+    {
+        path: '',
+        component: SecuredAreaComponent,
+        canActivate: [authGuard],
+        children: [
+            {
+                path: 'projects',
+                component: ProjectsComponent,
+                children: [
+                    // {
+                    //     path: 'new',
+                    //     component: AddProjectComponent
+                    // },
+                    // {
+                    //     path: ':projectId',
+                    //     component: ProjectDetailComponent
+                    // }
+                ]
+            },
+            {
+                path: 'projects/:projectId',
+                component: ProjectDetailComponent
+            },
+            {
+                path: '',
+                component: IssuesComponent
+            }
+        ]
+    },
+    {
+        path: 'auth',
+        component: AuthComponent,
+        children: [
+            {
+                path: 'sign-in',
+                component: LoginComponent
+            },
+            {
+                path: 'sign-up',
+                component: SignUpComponent
+            }
+        ]
+    }
 ];

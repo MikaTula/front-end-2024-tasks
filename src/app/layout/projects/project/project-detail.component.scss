@@ -1,0 +1,62 @@
+.project-detail-wrap {
+    display: grid;
+    grid-template-areas:
+    "name-block name-block  description"
+    "dates dates description"
+    "controls controls description"
+    "content content content";
+    grid-gap: 24px;
+    grid-template-rows: 60px  minmax(min-content, 40px)  minmax(min-content, 40px) auto;
+    grid-template-columns:  1fr minmax(1fr, 400px);
+
+    &__name-block {
+        grid-area: name-block;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow: hidden;
+    }
+
+    &__description {
+        grid-area: description;
+        background-color: var(--mat-sys-surface-bright);
+        border-radius: 8px;
+        padding: 8px;
+    }
+
+    &__dates {
+        grid-area: dates;
+        display: flex;
+        gap: 16px;
+
+    }
+
+    &__content {
+        grid-area: content;
+    }
+
+
+    &__name {
+        display: block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .description {
+
+        display: -webkit-box;
+        -webkit-line-clamp: 8;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .dates {
+        &__label {
+        }
+
+        &__date {
+            font-style: italic;
+        }
+    }
+}

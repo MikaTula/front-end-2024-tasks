@@ -1,15 +1,9 @@
 ﻿@use "./issue";
 @use "./issue-list";
-@use "./project-list-item";
 @use "./mat-fab";
-@use "./mat-list-item";
 
-@mixin all() {
-  @include issue.component();
-  @include issue-list.component();
-  @include project-list-item.component();
-
-  // material override
-  @include mat-fab.component();
-  @include mat-list-item.component();
+@mixin all($component-prefix) {
+    @include issue.component($component-prefix);
+    @include issue-list.component();
+    @include mat-fab.component();
 }

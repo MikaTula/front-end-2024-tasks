@@ -3,9 +3,8 @@ import {IListItem} from './list-item';
 
 @Component({
   selector: 'app-list-item',
-  // imports: [],
+  imports: [],
   templateUrl: './list-item.component.html',
-  standalone: true,
   host: {
     "class": "list-item",
   }

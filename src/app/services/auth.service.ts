@@ -1,99 +1,164 @@
-import {computed, inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable, tap} from 'rxjs';
-import {IAuthData} from '../interfaces/auth/auth.interfaces';
-import {ILoginRequest} from '../interfaces/requests/login-request';
-import {IAuthResponse} from '../interfaces/response/auth/auth-response';
-import {LocalStorage} from '../utils/storage/local-storage';
+import {computed, effect, inject, Injectable, signal} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
+import {map, Observable, of, Subscriber} from 'rxjs';
+import {ILoginRequest} from '../interfaces/requests/auth/login-request';
+import {IAuthResponse} from '../interfaces/responses/auth/auth-response';
+import {IAuthData} from '../interfaces/auth-data';
 import {Router} from '@angular/router';
-
-const AUTH_DATA = 'AUTH_DATA';
-const ACCESS_TOKEN = 'ACCESS_TOKEN';
-const PASSWORD_DATA = 'PASSWORD_DATA';
+import dayjs, {Dayjs} from 'dayjs';
+import {IRefreshRequest} from '../interfaces/requests/auth/refresh.request';
+import {ISignUpRequest} from '../interfaces/requests/auth/sign-up-request.interface';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
-  private readonly _http = inject(HttpClient);
-  private readonly _router = inject(Router);
 
-  private readonly _apiPath = '/api/v1.0/auth';
+    private readonly _http = inject(HttpClient);
+    private readonly _router = inject(Router);
 
-  public readonly isRefreshing$: BehaviorSubject<boolean> = new BehaviorSubject<any>(false);
+    private readonly _apiPath = '/api/v1.0/auth';
+    private refreshInProgress: boolean = false;
+    private requests: CallerRequest[] = [];
 
-  private readonly _accessToken = signal<string>('');
-  private readonly _authData = signal<IAuthData | undefined>(undefined);
+    private readonly _accessToken = signal<string>(localStorage.getItem('access-token') ?? '');
+    private readonly _refreshToken = signal<string>(localStorage.getItem('refresh-token') ?? '');
 
-  public readonly isAuthorized = computed(() => {
-    return !!this._authData();
-  });
+    private readonly _accessTokenPayload = computed(() => {
+        if (!this._accessToken()) return undefined;
 
-  public readonly authData = computed(() => {
-    return this._authData();
-  });
-
-  public readonly accessToken = computed(() => {
-    return this._accessToken();
-  });
-
-  constructor() {
-    const accessToken = LocalStorage.getItem(ACCESS_TOKEN);
-    if (accessToken) {
-      this.updateAuthData(accessToken)
-    }
-  }
-
-  public login(request: ILoginRequest): Observable<IAuthResponse> {
-
-    return this._http.post<IAuthResponse>(`${this._apiPath}/login`, JSON.stringify(request));
-  }
-
-  public updateAuthData(accessToken: string): void {
-    this._accessToken.set(accessToken);
-
-    const base64Url = accessToken.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const json = window.atob(base64);
-    const payload = JSON.parse(json);
-
-    this._authData.set({
-      email: payload.email,
-      name: payload.name
+        const base64Url = this._accessToken().split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const json = window.atob(base64);
+        return JSON.parse(json);
     });
 
-    LocalStorage.setItem(ACCESS_TOKEN, accessToken);
-    LocalStorage.setItem(AUTH_DATA, json);
-  }
+    private readonly _authData = computed<IAuthData | undefined>(() => {
+        if (!this._accessTokenPayload()) return undefined;
 
-  public savePassData(email: string, password: string): void {
-    LocalStorage.setItem(PASSWORD_DATA, JSON.stringify({email: email, password: password}));
-  }
+        return {
+            email: this._accessTokenPayload().email,
+            name: this._accessTokenPayload().username
+        };
+    });
 
-  public reset(): void {
-    LocalStorage.setItem(ACCESS_TOKEN, undefined);
-    LocalStorage.setItem(AUTH_DATA, undefined);
-    LocalStorage.setItem(PASSWORD_DATA, undefined);
+    private readonly _accessTokenExpiresAt = computed<Dayjs | undefined>(() => {
+        if (!this._accessTokenPayload()) return undefined;
+        return dayjs.unix(this._accessTokenPayload().exp);
+    });
 
-    this._accessToken.set('');
-    this._authData.set(undefined);
-  }
+    public readonly isAuthorized = computed(() => {
+        return !!this._authData();
+    });
 
-  public refreshToken(): Observable<IAuthResponse> {
-    const json = LocalStorage.getItem(PASSWORD_DATA);
-    if (json) {
-      const payload = JSON.parse(json);
-      return this.login({
-        email: payload.email,
-        password: payload.password
-      }).pipe(
-        tap(
-          result => this.updateAuthData(result.accessToken)
-        )
-      )
+    public readonly authData = computed(() => {
+        return this._authData();
+    });
+
+    constructor() {
+        this.renewAuth();
+
+        effect(() => {
+            localStorage.setItem('access-token', this._accessToken());
+            localStorage.setItem('refresh-token', this._refreshToken());
+        });
     }
-    this._router.navigateByUrl('/auth/login').then();
-    throw new Error();
-  }
 
+    public signIn(request: ILoginRequest): Observable<void> {
+        return this._http.post<IAuthResponse>(`${this._apiPath}/sign-in`, JSON.stringify(request)).pipe(
+            map(authResponse => {
+                this._accessToken.set(authResponse.accessToken);
+                this._refreshToken.set(authResponse.refreshToken);
+                this._router.navigate(['/']).then(() => {
+                });
+            }),
+        );
+    }
+
+    public signUp(request: ISignUpRequest): Observable<void> {
+        return this._http.post<IAuthResponse>(`${this._apiPath}/sign-up`, JSON.stringify(request)).pipe(
+            map(authResponse => {
+                this._accessToken.set(authResponse.accessToken);
+                this._refreshToken.set(authResponse.refreshToken);
+                this._router.navigate(['/']).then(() => {
+                });
+            }),
+        );
+    }
+
+    public signOut(): void {
+        this._accessToken.set('');
+        this._refreshToken.set('');
+        this._router.navigate(['auth', 'sign-in']).then(() => {
+        });
+    }
+
+    public renewAuth(): Observable<void> {
+        if(this._accessTokenExpiresAt()?.subtract(1, 'minute').isAfter(dayjs())) return of();
+
+        let request: IRefreshRequest = {
+            refreshToken: this._refreshToken(),
+        };
+
+        return this._http.post<IAuthResponse>(`${this._apiPath}/refresh`, JSON.stringify(request)).pipe(
+            map(authResponse => {
+                this._accessToken.set(authResponse.accessToken);
+                this._refreshToken.set(authResponse.refreshToken);
+            }),
+        );
+    }
+
+    public addAuthorizationHeader(requestHeaders: HttpHeaders): HttpHeaders {
+        if(!this.isAuthorized()) return requestHeaders;
+        return requestHeaders.set('Authorization', `Bearer ${this._accessToken()}`);
+    }
+
+    public handleUnauthorizedError(subscriber: Subscriber<any>, request: HttpRequest<any>) {
+        this.requests.push({
+            subscriber: subscriber,
+            failedRequest: request,
+        });
+
+        if (this.refreshInProgress) return;
+
+        this.refreshInProgress = true;
+        this.renewAuth().subscribe({
+            next: () => {
+                this.repeatFailedRequests();
+            },
+            error: () => {
+                this._router.navigate(['auth', 'sign-in']).then(() => {
+                });
+            },
+            complete: () => {
+                this.refreshInProgress = false;
+            },
+        });
+    }
+
+    private repeatFailedRequests() {
+        this.requests.forEach(callerRequest => {
+            const request = callerRequest.failedRequest.clone({
+                headers: this.addAuthorizationHeader(callerRequest.failedRequest.headers),
+            });
+            this.repeatRequest(request, callerRequest.subscriber);
+        })
+        this.requests = [];
+    }
+
+    private repeatRequest(request: HttpRequest<any>, subscriber: Subscriber<any>) {
+        this._http.request(request).subscribe({
+            next: response => subscriber.next(response),
+            error: error => {
+                if(error.status === 401) this.signOut();
+                subscriber.error(error);
+            },
+            complete: () => subscriber.complete()
+        });
+    }
 }
+
+type CallerRequest = {
+    subscriber: Subscriber<any>;
+    failedRequest: HttpRequest<any>;
+};

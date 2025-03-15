@@ -1,0 +1,19 @@
+<mat-toolbar class="header">
+    <span>Mini Jira</span>
+    <span class="filler"></span>
+    <button mat-button [matMenuTriggerFor]="menu">
+        {{ authService.authData()?.name }}
+    </button>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="authService.signOut()">Sign Out</button>
+    </mat-menu>
+</mat-toolbar>
+
+<div class="menu-outlet">
+    <app-left-menu></app-left-menu>
+</div>
+
+<main>
+    <router-outlet/>
+</main>

@@ -1,0 +1,21 @@
+.project-list-item {
+    &__wrap {
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        grid-gap: 8px;
+
+        &__code {
+        }
+
+        &__title {
+            display: grid;
+            align-items: center;
+        }
+    }
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

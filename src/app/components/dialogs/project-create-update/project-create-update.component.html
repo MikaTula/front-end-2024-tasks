@@ -1,0 +1,35 @@
+<h2 mat-dialog-title> {{ presetProjectId() ? "Update project" : "Create project" }} </h2>
+
+<mat-dialog-content>
+    <div class="content">
+        <form [formGroup]="form" (ngSubmit)="onSave()" class="form">
+            <mat-form-field>
+                <mat-label>Code</mat-label>
+                <input matInput formControlName="code" cdkFocusInitial>
+                @if (code.hasError('required')) {
+                    <mat-error>Email is <strong>required</strong></mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name">
+                @if (name.hasError('required')) {
+                    <mat-error>Name is <strong>required</strong></mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description" rows="5"></textarea>
+            </mat-form-field>
+        </form>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="mat-dialog-actions">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-flat-button (click)="onSave()"
+            [disabled]="isInvalidState()">{{ presetProjectId() ? "Update" : "Create" }}
+    </button>
+</mat-dialog-actions>

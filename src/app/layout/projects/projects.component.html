@@ -1,53 +1,26 @@
 <div class="cta-container">
-  <button (click)="createProject()" mat-button>Create Project</button>
+    <a mat-button routerLink="new">Create Project</a>
+
+    <form [formGroup]="filterForm">
+
+        <mat-form-field>
+            <mat-label>Search</mat-label>
+            <input matInput formControlName="searchTerm">
+        </mat-form-field>
+
+    </form>
+
 </div>
 
 <div class="projects-container">
-  <mat-nav-list>
-    @for (project of dataSource.data(); track project.id) {
-      <project-list-item [project]="project"></project-list-item>
-    }
-  </mat-nav-list>
-
-  <mat-nav-list>
-    <!--    <div mat-subheader>Projects</div>-->
-    <!--        @for (project of dataSource.$data | async; track project.id) {-->
-    <!--          <project-list-item [project]="project"></project-list-item>-->
-    <!--          &lt;!&ndash;      <mat-list-item routerLink="{{ project.id }}" routerLinkActive="active">&ndash;&gt;-->
-
-    <!--            &lt;!&ndash;        <mat-icon matListItemIcon>folder</mat-icon>&ndash;&gt;-->
-    <!--            &lt;!&ndash;        <div matListItemTitle>{{ project.name }}</div>&ndash;&gt;-->
-    <!--            &lt;!&ndash;        <div matListItemLine>{{ project.code }}</div>&ndash;&gt;-->
-    <!--            &lt;!&ndash;      </mat-list-item>&ndash;&gt;-->
-    <!--        }-->
-    <mat-divider></mat-divider>
-
-    <div mat-subheader>Notes 22</div>
-
-    <mat-list-item>
-      <mat-icon matListItemIcon>note</mat-icon>
-      <div matListItemTitle>{{ 123 }}</div>
-      <div matListItemLine>{{ 3333 }}</div>
-    </mat-list-item>
-
-    <mat-divider></mat-divider>
-
-    <!--    <mat-list-item (click)="recreateProject()">-->
-    <!--      <mat-icon matListItemIcon>note_add</mat-icon>-->
-    <!--      <div matListItemTitle>Recreate Projects</div>-->
-    <!--      <div matListItemLine>Recreate all</div>-->
-    <!--    </mat-list-item>-->
-
-
-  </mat-nav-list>
+    <mat-nav-list>
+        @for (project of dataSource.data(); track project.id) {
+            <a mat-list-item routerLink="{{ project.id }}" routerLinkActive="active">{{ project.name }}</a>
+        }
+    </mat-nav-list>
 </div>
 
-<div class="issues-container">
-  <router-outlet/>
-  <!--  class="mat-fab"-->
-  <button mat-fab aria-label="Example icon button with a delete icon" (click)="createProject()">
-    <mat-icon>add</mat-icon>
-  </button>
-</div>
-
+<!--<div class="issues-container">-->
+<!--    <router-outlet/>-->
+<!--</div>-->
 

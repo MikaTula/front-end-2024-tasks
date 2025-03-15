@@ -1,0 +1,23 @@
+:host {
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    grid-template-columns: 250px 1fr;
+    grid-template-areas: "header header"  "menu content";
+    height: 100%;
+}
+
+main {
+    grid-area: content;
+
+    padding-inline: 8px;
+    padding-bottom: 16px;
+}
+
+.header {
+    grid-area: header;
+}
+
+.menu-outlet {
+    grid-area: menu;
+    padding-inline: 8px;
+}
