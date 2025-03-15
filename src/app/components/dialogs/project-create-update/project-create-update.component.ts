@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 import {take} from 'rxjs';
 
 @Component({
-    selector: 'app-project-create-update',
+    selector: 'app-project-detail-create-update',
     imports: [
         ReactiveFormsModule,
         MatInputModule,
@@ -23,14 +23,6 @@ import {take} from 'rxjs';
 })
 export class ProjectCreateUpdateComponent implements OnInit {
 
-    private readonly _projectService = inject(ProjectService);
-    private readonly _router = inject(Router);
-    private readonly _dialogRef = inject(MatDialogRef<ProjectCreateUpdateComponent>);
-
-    public readonly isInvalidState: Signal<boolean> = computed(() => {
-        return this.createFormStatusChanges() != 'VALID';
-    });
-
     public form: FormGroup<IProjectForm> = new FormGroup<IProjectForm>({
         code: new FormControl<string>("", {
             validators: [Validators.required, Validators.minLength(2), Validators.maxLength(2),],
@@ -39,10 +31,20 @@ export class ProjectCreateUpdateComponent implements OnInit {
         name: new FormControl<string>("", {validators: [Validators.required], nonNullable: true}),
         description: new FormControl<string>(""),
     });
-
     public createFormStatusChanges = toSignal(this.form.statusChanges);
-
+    public readonly isInvalidState: Signal<boolean> = computed(() => {
+        return this.createFormStatusChanges() != 'VALID';
+    });
     protected presetProjectId = signal<string | null>(null);
+    private readonly _projectService = inject(ProjectService);
+    private readonly _router = inject(Router);
+    private readonly _dialogRef = inject(MatDialogRef<ProjectCreateUpdateComponent>);
+
+    constructor(@Inject(MAT_DIALOG_DATA) data: { projectId: string }) {
+        if (data?.projectId) {
+            this.presetProjectId.set(data.projectId);
+        }
+    }
 
     public get code(): FormControl {
         return this.form.controls.code;
@@ -74,12 +76,6 @@ export class ProjectCreateUpdateComponent implements OnInit {
             //         let projectUrl = this._router.createUrlTree([data.id]);
             //         this._router.navigateByUrl(projectUrl).then();
             //     })
-        }
-    }
-
-    constructor(@Inject(MAT_DIALOG_DATA) data: { projectId: string }) {
-        if (data.projectId) {
-            this.presetProjectId.set(data.projectId);
         }
     }
 

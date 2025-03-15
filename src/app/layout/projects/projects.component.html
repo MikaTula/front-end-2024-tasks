@@ -1,26 +1,37 @@
-<div class="cta-container">
-    <a mat-button routerLink="new">Create Project</a>
-
-    <form [formGroup]="filterForm">
-
-        <mat-form-field>
-            <mat-label>Search</mat-label>
-            <input matInput formControlName="searchTerm">
-        </mat-form-field>
-
-    </form>
-
-</div>
-
-<div class="projects-container">
-    <mat-nav-list>
-        @for (project of dataSource.data(); track project.id) {
-            <a mat-list-item routerLink="{{ project.id }}" routerLinkActive="active">{{ project.name }}</a>
+<div class="toolbar">
+    <mat-form-field class="search" subscriptSizing="dynamic">
+        <mat-icon class="search__prefix" matIconPrefix>search</mat-icon>
+        <input [formControl]="searchControl" matInput placeholder="Search">
+        @if (searchControl.value) {
+            <button matSuffix mat-icon-button class="search__suffix" (click)="searchControl.setValue('')">
+                <mat-icon>close</mat-icon>
+            </button>
         }
-    </mat-nav-list>
+    </mat-form-field>
+    <button (click)="createProject()" mat-flat-button>Create Project</button>
+
 </div>
 
-<!--<div class="issues-container">-->
-<!--    <router-outlet/>-->
-<!--</div>-->
+<div class="container">
+
+
+    <div class="content">
+        @if (!dataSource.isLoading()) {
+            <mat-action-list>
+                @for (project of dataSource.data(); track project.id) {
+                    <app-project [project]="project"></app-project>
+                }
+            </mat-action-list>
+        } @else {
+            <mat-progress-bar mode="indeterminate" class="progress"></mat-progress-bar>
+        }
+    </div>
+    <app-paginator [dataSource]="dataSource" class="paginator"></app-paginator>
+
+</div>
+
+<button (click)="createProject()" aria-label="Create new project" mat-fab>
+    <mat-icon>add</mat-icon>
+</button>
+
 

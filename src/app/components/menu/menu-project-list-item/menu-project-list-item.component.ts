@@ -6,20 +6,20 @@ import {stringToColor} from '../../../utils/utils';
 import {CodeComponent} from '../code/code.component';
 
 @Component({
-    selector: 'project-list-item',
+    selector: 'app-menu-project-list-item',
     imports: [
         MatListItem,
         RouterLink,
         RouterLinkActive,
         CodeComponent
     ],
-    templateUrl: 'project-list-item.component.html',
-    styleUrl: './project-list-item.component.scss',
+    templateUrl: 'menu-project-list-item.component.html',
+    styleUrl: './menu-project-list-item.component.scss',
     host: {
-        class: 'project-list-item'
+        class: 'menu-project-list-item'
     }
 })
-export class ProjectListItemComponent {
+export class MenuProjectListItemComponent {
 
     public readonly project = input.required<IProject>();
 

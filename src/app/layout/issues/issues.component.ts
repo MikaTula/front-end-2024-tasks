@@ -1,6 +1,6 @@
 import {Component, computed, effect, inject, input, signal} from '@angular/core';
 import {IssueDataSource} from '../../data-sources/issue.data-source';
-import {IssueComponent} from '../../components/issue/issue.component';
+import {IssueComponent} from '../../components/issues/issue/issue.component';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {debounceTime} from 'rxjs';
@@ -16,9 +16,11 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIcon} from '@angular/material/icon';
 import {PrioritiesSelectionComponent} from '../../components/priority-selection/priorities-selection.component';
 import {MatDialog} from '@angular/material/dialog';
-import {IssueCreateUpdateComponent} from '../../components/dialogs/issue-create-update/issue-create-update.component';
-import {IssueSortingComponent} from '../../components/issue-sorting/issue-sorting.component';
+import {IssueSortingComponent} from '../../components/issues/issue-sorting/issue-sorting.component';
 import {NgIf} from '@angular/common';
+import {ProjectPopupService} from '../../services/project.popup.service';
+import {IssuePopupService} from '../../services/issue.popup.service';
+import {PaginatorComponent} from '../../components/paginator/paginator.component';
 
 @Component({
     selector: 'app-issues',
@@ -36,23 +38,27 @@ import {NgIf} from '@angular/common';
         MatIcon,
         PrioritiesSelectionComponent,
         IssueSortingComponent,
-        NgIf
+        NgIf,
+        PaginatorComponent
     ],
     templateUrl: './issues.component.html',
     styleUrl: './issues.component.scss'
 })
 export class IssuesComponent {
-    public projectId = input<string | null>(null);
-
-
-    private readonly _dialog = inject(MatDialog);
-
+    public readonly projectId = input<string | null | undefined>(null);
     public readonly dataSource = new IssueDataSource();
-
     public readonly searchControl = new FormControl<string>(this.dataSource.filterRequest().searchTerm ?? '');
     public readonly selectedState = signal<IssueState>(this.dataSource.filterRequest().state ?? "Open");
     public readonly selectedProjectIds = signal<string[]>(this.dataSource.filterRequest().projectIds ?? []);
     public readonly selectedPriorities = signal<IssuePriority[]>(this.dataSource.filterRequest().priorities ?? []);
+    protected readonly isOneProject = computed(() => {
+            const projectId = this.projectId();
+            return typeof (projectId) === 'string';
+        }
+    );
+    private readonly _dialog = inject(MatDialog);
+    private readonly _projectPopupService = inject(ProjectPopupService);
+    private readonly _issuePopupService = inject(IssuePopupService);
 
     private readonly searchControlChanges = toSignal(this.searchControl.valueChanges.pipe(debounceTime(250)));
     private readonly filterRequest = computed<IIssueFilterRequest>(() => {
@@ -63,7 +69,6 @@ export class IssuesComponent {
             priorities: this.selectedPriorities(),
         };
     });
-    protected isOneProject = computed(() => this.projectId() !== null);
 
     constructor() {
         effect(() => {
@@ -85,13 +90,18 @@ export class IssuesComponent {
     }
 
     public createIssue() {
-        const dialogRef = this._dialog.open(IssueCreateUpdateComponent, {
-            data: {
-                projectId: this.projectId()
-            }
-        });
+        const popupRef = this._issuePopupService.openCreateIssue(this.projectId());
 
-        dialogRef.afterClosed().subscribe(result => {
+        popupRef.afterClosed().subscribe(result => {
+            if (!result) return;
+            this.dataSource.reload();
+        });
+    }
+
+    public createProject() {
+        const popupRef = this._projectPopupService.openCreateProject()
+
+        popupRef.afterClosed().subscribe(result => {
             if (!result) return;
             this.dataSource.reload();
         });

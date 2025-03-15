@@ -1,6 +1,6 @@
 <mat-nav-list>
-    <div mat-subheader class="subheader" (click)="toggleProjects()">
-        All Projects
+    <div (click)="toggleProjects()" class="subheader" mat-subheader>
+        Projects
         @if (projectOpen) {
             <mat-icon>arrow_drop_down</mat-icon>
         } @else {
@@ -8,11 +8,11 @@
         }
     </div>
 
-    <div class="content-wrapper" [class.content-wrapper--active]="projectOpen"
-         [ngStyle]="{'--count-item': projectListItems().length}"
+    <div [class.content-wrapper--active]="projectOpen" [ngStyle]="{'--count-item': projectListItems().length}"
+         class="content-wrapper"
     >
         @for (project of projectListItems(); track project.id) {
-            <project-list-item [project]="project"></project-list-item>
+            <app-menu-project-list-item [project]="project"></app-menu-project-list-item>
         }
     </div>
 
@@ -21,13 +21,13 @@
 
 <mat-nav-list>
     <!--    <div mat-subheader>Projects</div>-->
-    <!--        @for (project of dataSource.$data | async; track project.id) {-->
-    <!--          <project-list-item [project]="project"></project-list-item>-->
-    <!--          &lt;!&ndash;      <mat-list-item routerLink="{{ project.id }}" routerLinkActive="active">&ndash;&gt;-->
+    <!--        @for (project-detail of dataSource.$data | async; track project-detail.id) {-->
+    <!--          <project-detail-list-item [project-detail]="project-detail"></project-detail-list-item>-->
+    <!--          &lt;!&ndash;      <mat-list-item routerLink="{{ project-detail.id }}" routerLinkActive="active">&ndash;&gt;-->
 
     <!--            &lt;!&ndash;        <mat-icon matListItemIcon>folder</mat-icon>&ndash;&gt;-->
-    <!--            &lt;!&ndash;        <div matListItemTitle>{{ project.name }}</div>&ndash;&gt;-->
-    <!--            &lt;!&ndash;        <div matListItemLine>{{ project.code }}</div>&ndash;&gt;-->
+    <!--            &lt;!&ndash;        <div matListItemTitle>{{ project-detail.name }}</div>&ndash;&gt;-->
+    <!--            &lt;!&ndash;        <div matListItemLine>{{ project-detail.code }}</div>&ndash;&gt;-->
     <!--            &lt;!&ndash;      </mat-list-item>&ndash;&gt;-->
     <!--        }-->
     <mat-divider></mat-divider>

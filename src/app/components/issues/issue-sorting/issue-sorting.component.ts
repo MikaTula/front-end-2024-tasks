@@ -1,12 +1,12 @@
 import {Component, effect, input, linkedSignal, output, signal} from '@angular/core';
-import {ISortRequest} from '../../interfaces/requests/sort-request';
-import {IssueSortBy} from '../../types/issue.types';
-import {ButtonSelectArrowComponent} from '../button-select-arrow/button-select-arrow.component';
+import {ISortRequest} from '../../../interfaces/requests/sort-request';
+import {IssueSortBy} from '../../../types/issue.types';
+import {ButtonSelectArrowComponent} from '../../button-select-arrow/button-select-arrow.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatDivider} from '@angular/material/divider';
-import {IssueSortByPipe} from '../../pipes/issue-sort-by.pipe';
+import {IssueSortByPipe} from '../../../pipes/issue-sort-by.pipe';
 
 @Component({
     selector: 'app-issue-sorting',

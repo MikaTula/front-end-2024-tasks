@@ -16,7 +16,7 @@ import {ProjectPopupService} from '../../../services/project.popup.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
-    selector: 'app-project-detail',
+    selector: 'app-project-detail-detail',
     imports: [
         MatTableModule,
         MatListModule,
@@ -33,27 +33,17 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
     templateUrl: './project-detail.component.html',
     styleUrl: './project-detail.component.scss',
     host: {
-        class: 'project-detail'
+        class: 'project-detail-detail'
     }
 })
 export class ProjectDetailComponent {
 
+    protected projectIdInner = signal<string | null>(null);
+    protected project = signal<IProjectResponse | null>(null);
+    protected readonly _destroyRef = inject(DestroyRef);
     private readonly _projectService = inject(ProjectService);
     private readonly _projectPopupService = inject(ProjectPopupService);
-
     private issuesComponent = viewChild.required(IssuesComponent);
-
-    protected projectIdInner = signal<string | null>(null);
-
-    protected project = signal<IProjectResponse | null>(null);
-
-    protected readonly _destroyRef = inject(DestroyRef);
-
-
-    @Input()
-    set projectId(projectId: string) {
-        this.projectIdInner.set(projectId)
-    }
 
     constructor() {
         effect(() => {
@@ -65,6 +55,11 @@ export class ProjectDetailComponent {
             }
 
         });
+    }
+
+    @Input()
+    set projectId(projectId: string) {
+        this.projectIdInner.set(projectId)
     }
 
     protected editProject() {

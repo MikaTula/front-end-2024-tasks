@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
-import {RouterOutlet} from '@angular/router';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
@@ -13,7 +13,8 @@ import {LeftMenuComponent} from '../../components/menu/left-menu/left-menu.compo
         MatToolbarModule,
         MatButtonModule,
         MatMenuModule,
-        LeftMenuComponent
+        LeftMenuComponent,
+        RouterLink
     ],
     templateUrl: './secured-area.component.html',
     styleUrl: './secured-area.component.scss'

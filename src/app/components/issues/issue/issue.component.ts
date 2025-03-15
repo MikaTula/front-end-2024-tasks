@@ -1,10 +1,8 @@
 import {Component, HostBinding, input} from '@angular/core';
-import {IIssue} from '../../interfaces/issue.interface';
-import {IssuePriority} from '../../enums/issue-priority.enum';
 import {MatRipple} from '@angular/material/core';
-import {RelativeTimePipe} from '../../pipes/relative-time.pipe';
+import {RelativeTimePipe} from '../../../pipes/relative-time.pipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {IIssueListResponse} from '../../interfaces/responses/issue/issue-list-response.interface';
+import {IIssueListResponse} from '../../../interfaces/responses/issue/issue-list-response.interface';
 
 @Component({
     selector: 'app-issue',

@@ -1,8 +1,6 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {IIssue} from '../interfaces/issue.interface';
-import {IIssueRequest} from '../interfaces/requests/issue-request.interface';
 import {IPageRequest} from '../interfaces/requests/page-request';
 import {ISortRequest} from '../interfaces/requests/sort-request';
 import {IPageResponse} from '../interfaces/responses/page-response';
@@ -25,7 +23,7 @@ export class IssueService {
         let params = new HttpParams();
 
         if (!!pageRequest) {
-            params = params.append("pageNumber", pageRequest.pageNumber);
+            params = params.append("pageNumber", pageRequest.pageNumber + 1);
             params = params.append("pageSize", pageRequest.pageSize);
         }
 

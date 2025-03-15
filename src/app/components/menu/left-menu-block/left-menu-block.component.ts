@@ -1,7 +1,6 @@
+// import { MenuProjectDataSource } from "../../../data-sources/menu-project.data-source";
 // import {Component, computed} from '@angular/core';
-// import {IProject} from '../../../interfaces/project.interface';
-// import {IProjectResponse} from '../../../interfaces/responses/project/project-response';
-// import {MenuProjectDataSource} from '../../../data-sources/menu-project.data-source';
+//
 //
 // @Component({
 //     selector: 'app-left-menu-block',
@@ -17,8 +16,8 @@
 //
 //     public projectListItems = computed(() => {
 //         return this.dataSource.data().map(
-//             (project: IProjectResponse): IProject => {
-//                 return {...project};
+//             (project-detail: IProjectResponse): IProject => {
+//                 return {...project-detail};
 //             }
 //         );
 //     });

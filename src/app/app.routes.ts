@@ -2,11 +2,10 @@ import {Routes} from '@angular/router';
 import {ProjectsComponent} from './layout/projects/projects.component';
 import {LoginComponent} from './layout/auth/login/login.component';
 import {authGuard} from './guards/auth.guard';
-import {IssuesComponent} from './layout/issues/issues.component';
 import {SecuredAreaComponent} from './layout/secured-area/secured-area.component';
 import {AuthComponent} from './layout/auth/auth.component';
 import {SignUpComponent} from './layout/auth/sign-up/sign-up.component';
-import {ProjectDetailComponent} from './layout/projects/project/project-detail.component';
+import {ProjectDetailComponent} from './layout/projects/project-detail/project-detail.component';
 
 export const routes: Routes = [
     {
@@ -34,7 +33,7 @@ export const routes: Routes = [
             },
             {
                 path: '',
-                component: IssuesComponent
+                component: ProjectsComponent
             }
         ]
     },

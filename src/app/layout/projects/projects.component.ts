@@ -1,49 +1,68 @@
-import {Component, effect, inject} from '@angular/core';
-import {ProjectDataSource} from '../../data-sources/project.data-source';
-import {MatTableModule} from '@angular/material/table';
-import {MatAnchor} from '@angular/material/button';
-import {ProjectService} from '../../services/project.service';
-import {RouterModule} from '@angular/router';
-import {MatListModule} from '@angular/material/list';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
+import {Component, computed, effect, inject} from '@angular/core';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {debounceTime} from 'rxjs';
+import {MatButtonModule} from '@angular/material/button';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatInputModule} from '@angular/material/input';
+import {ProjectPopupService} from '../../services/project.popup.service';
+import {ProjectDataSource} from '../../data-sources/project.data-source';
+import {IProjectFilterRequest} from '../../interfaces/requests/project/project-filter-request';
+import {Router} from '@angular/router';
+import {MatIcon} from '@angular/material/icon';
+import {ProjectComponent} from '../../components/projects/project/project.component';
+import {PaginatorComponent} from '../../components/paginator/paginator.component';
+
 
 @Component({
-    selector: 'app-projects',
+    selector: 'app-issues',
     imports: [
-        MatTableModule,
         MatListModule,
-        RouterModule,
-        MatAnchor,
+        MatProgressBarModule,
+        MatChipsModule,
+        MatButtonModule,
+        MatMenuModule,
         FormsModule,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatInputModule,
+        MatIcon,
+        ProjectComponent,
+        PaginatorComponent
     ],
     templateUrl: './projects.component.html',
-    host: {
-        class: 'app-projects'
-    }
+    styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent {
+    public readonly dataSource = new ProjectDataSource();
+    public readonly searchControl = new FormControl<string>(this.dataSource.filterRequest().searchTerm ?? '');
+    private _router = inject(Router);
+    private readonly _projectPopupService = inject(ProjectPopupService);
 
-    private readonly _projectService = inject(ProjectService);
-
-    public dataSource = new ProjectDataSource();
-
-    public filterForm: FormGroup = new FormGroup({
-        searchTerm: new FormControl<string>("")
+    private readonly searchControlChanges = toSignal(this.searchControl.valueChanges.pipe(debounceTime(250)));
+    private readonly filterRequest = computed<IProjectFilterRequest>(() => {
+        return {
+            searchTerm: this.searchControlChanges() ?? '',
+        };
     });
-
-    private readonly filterRequest = toSignal(this.filterForm.valueChanges.pipe(debounceTime(300)));
 
     constructor() {
         effect(() => {
-            this.dataSource.changeFilter(this.filterRequest());
+            if (!this.filterRequest()) return;
+            this.dataSource.changeFilter(this.filterRequest()!);
         });
     }
+
+    public createProject() {
+        const popupRef = this._projectPopupService.openCreateProject()
+
+        popupRef.afterClosed().subscribe(result => {
+            if (!result) return;
+            this.dataSource.reload();
+            this._router.navigate(['projects', result?.id]).then();
+        });
+    }
+
 }

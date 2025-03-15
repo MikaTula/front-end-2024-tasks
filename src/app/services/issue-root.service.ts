@@ -5,6 +5,6 @@ import {CommonEventEnum} from '../enums/common-event.enum';
 @Injectable({
     providedIn: 'root'
 })
-export class ProjectRootService {
+export class IssueRootService {
     readonly event$: Subject<CommonEventEnum> = new Subject<CommonEventEnum>();
 }

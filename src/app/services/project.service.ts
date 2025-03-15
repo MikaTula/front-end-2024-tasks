@@ -8,7 +8,8 @@ import {IProjectResponse} from '../interfaces/responses/project/project-response
 import {IPageRequest} from '../interfaces/requests/page-request';
 import {ISortRequest} from '../interfaces/requests/sort-request';
 import {IProjectFilterRequest} from '../interfaces/requests/project/project-filter-request';
-import {CommonEventEnum, ProjectRootService} from './project-root.service';
+import {ProjectRootService} from './project-root.service';
+import {CommonEventEnum} from '../enums/common-event.enum';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +26,7 @@ export class ProjectService {
         let params = new HttpParams();
 
         if (!!pageRequest) {
-            params = params.append("pageNumber", pageRequest.pageNumber);
+            params = params.append("pageNumber", pageRequest.pageNumber + 1);
             params = params.append("pageSize", pageRequest.pageSize);
         }
 

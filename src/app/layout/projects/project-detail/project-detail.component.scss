@@ -8,6 +8,7 @@
     grid-gap: 24px;
     grid-template-rows: 60px  minmax(min-content, 40px)  minmax(min-content, 40px) auto;
     grid-template-columns:  1fr minmax(1fr, 400px);
+    height: 100%;
 
     &__name-block {
         grid-area: name-block;
@@ -49,6 +50,7 @@
         -webkit-line-clamp: 8;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        white-space: pre;
     }
 
     .dates {

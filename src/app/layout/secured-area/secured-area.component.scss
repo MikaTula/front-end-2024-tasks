@@ -15,6 +15,10 @@ main {
 
 .header {
     grid-area: header;
+
+    &__link {
+        cursor: pointer;
+    }
 }
 
 .menu-outlet {

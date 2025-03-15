@@ -67,7 +67,7 @@
 .container {
     display: grid;
     height: 100%;
-    grid-template-rows: min-content 1fr min-content;
+    grid-template-rows: 1fr min-content;
     overflow: hidden;
 
     border-radius: var(--mat-sys-corner-large);
@@ -94,7 +94,7 @@
 }
 
 .paginator {
-    align-self: flex-end;
+
 }
 
 .progress {

@@ -15,7 +15,9 @@ services:
         image: mongo:6.0.3
         container_name: database
         volumes:
-            - cm25server_mongo_volume:/data/db
+            - cm25server_mongo_data:/data/db
+            - cm25server_mongo_configdb:/data/configdb
+            
         networks:
             - cm25
         ports:
@@ -34,8 +36,8 @@ services:
             - cm25
 
 volumes:
-    cm25server_mongo_volume:
-        external: false
+    cm25server_mongo_data:
+    cm25server_mongo_configdb:
 
 networks:
     cm25:

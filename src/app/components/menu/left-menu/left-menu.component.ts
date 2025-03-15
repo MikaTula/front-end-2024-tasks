@@ -1,5 +1,4 @@
 import {Component, computed} from '@angular/core';
-import {ProjectListItemComponent} from '../project-list-item/project-list-item.component';
 import {MatListSubheaderCssMatStyler, MatNavList} from '@angular/material/list';
 import {MatDivider} from '@angular/material/divider';
 import {IProject} from '../../../interfaces/project.interface';
@@ -7,16 +6,17 @@ import {IProjectResponse} from '../../../interfaces/responses/project/project-re
 import {MenuProjectDataSource} from '../../../data-sources/menu-project.data-source';
 import {MatIcon} from '@angular/material/icon';
 import {NgStyle} from '@angular/common';
+import {MenuProjectListItemComponent} from '../menu-project-list-item/menu-project-list-item.component';
 
 @Component({
     selector: 'app-left-menu',
     imports: [
-        ProjectListItemComponent,
         MatNavList,
         MatDivider,
         MatListSubheaderCssMatStyler,
         MatIcon,
-        NgStyle
+        NgStyle,
+        MenuProjectListItemComponent
     ],
     templateUrl: './left-menu.component.html',
     styleUrl: './left-menu.component.scss',
@@ -25,10 +25,7 @@ import {NgStyle} from '@angular/common';
     }
 })
 export class LeftMenuComponent {
-    protected projectOpen = true;
-
     public dataSource = new MenuProjectDataSource();
-
     public projectListItems = computed(() => {
         return this.dataSource.data().map(
             (project: IProjectResponse): IProject => {
@@ -36,7 +33,7 @@ export class LeftMenuComponent {
             }
         );
     });
-
+    protected projectOpen = true;
 
     protected toggleProjects() {
         this.projectOpen = !this.projectOpen;

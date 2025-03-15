@@ -1,9 +1,11 @@
 ﻿@use "./issue";
 @use "./issue-list";
 @use "./mat-fab";
+@use "./paginator";
 
 @mixin all($component-prefix) {
     @include issue.component($component-prefix);
     @include issue-list.component();
     @include mat-fab.component();
+    @include paginator.component();
 }
