@@ -7,9 +7,9 @@
 
     grid: {
         template: {
-            columns: min-content 1fr min-content;
+            columns: min-content 1fr min-content min-content min-content;
             rows: min-content min-content;
-            areas: "project-code name priority" "project-code created-on priority";
+            areas: "project-code name stage state priority delete" "project-code created-on stage state priority delete";
         }
         column-gap: 16px;
     }
@@ -34,28 +34,28 @@
 
     .app-issue__project-code {
         grid-area: project-code;
-        white-space: nowrap;
-        position: relative;
-        box-sizing: border-box;
-        place-self: center;
-        overflow: hidden;
-
-        width: 40px;
-        height: 40px;
-        padding: 4px;
-
-        border-radius: var(--mat-sys-corner-small);
-        background-color: var(--mat-sys-primary-container);
-        color: var(--mat-sys-on-primary-container);
-
-        &::after {
-            content: '';
-            position: absolute;
-            inset-inline: 0;
-            bottom: 0;
-            height: 4px;
-            background-color: var(--mat-sys-primary);
-        }
+        //white-space: nowrap;
+        //position: relative;
+        //box-sizing: border-box;
+        //place-self: center;
+        //overflow: hidden;
+        //
+        //width: 40px;
+        //height: 40px;
+        //padding: 4px;
+        //
+        //border-radius: var(--mat-sys-corner-small);
+        //background-color: var(--mat-sys-primary-container);
+        //color: var(--mat-sys-on-primary-container);
+        //
+        //&::after {
+        //    content: '';
+        //    position: absolute;
+        //    inset-inline: 0;
+        //    bottom: 0;
+        //    height: 4px;
+        //    background-color: var(--mat-sys-primary);
+        //}
     }
 
     .app-issue__name {
@@ -71,21 +71,31 @@
         color: var(--mat-sys-on-surface-variant);
     }
 
+    .app-issue__stage {
+        grid-area: stage;
+        display: grid;
+        place-items: center;
+    }
+
+    .app-issue__state {
+        grid-area: state;
+        display: grid;
+        place-items: center;
+    }
+
     .app-issue__priority {
         grid-area: priority;
         display: grid;
         place-items: center;
         place-self: center;
 
-        width: 32px;
-        height: 32px;
-        border-radius: 4px;
+    }
 
-        background-color: var(--app-issue-marker-background-color);
-        color: var(--app-issue-marker-color);
-
-        &::after {
-            content: var(--app-issue-marker-letter);
-        }
+    .app-issue__delete {
+        grid-area: delete;
+        display: grid;
+        place-items: center;
     }
 }
+
+

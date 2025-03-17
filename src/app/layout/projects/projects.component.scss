@@ -67,7 +67,7 @@
 .container {
     display: grid;
     height: 100%;
-    grid-template-rows: 1fr min-content;
+    grid-template-rows:  min-content 1fr min-content;
     overflow: hidden;
 
     border-radius: var(--mat-sys-corner-large);
@@ -83,6 +83,12 @@
     padding: 8px 16px;
 
     background-color: var(--mat-sys-surface-container-high);
+
+    &__label {
+        display: flex;
+        align-items: center;
+
+    }
 }
 
 .content {

@@ -22,6 +22,13 @@ export class ProjectDataSource extends BaseDataSource<IProjectResponse, IProject
             this._projectService.getProjects(request.pageRequest, request.sortRequest, request.filterRequest)
     });
 
+    constructor() {
+        super();
+        this._projectRootService.event$.subscribe(() => {
+            this._projectResource.reload()
+        });
+    }
+
     protected override dataResource(): ResourceRef<IPageResponse<IProjectResponse>> {
         return this._projectResource;
     }
@@ -30,10 +37,5 @@ export class ProjectDataSource extends BaseDataSource<IProjectResponse, IProject
         return {
             searchTerm: ""
         };
-    }
-
-    constructor() {
-        super();
-        this._projectRootService.event$.subscribe(() => this._projectResource.reload());
     }
 }

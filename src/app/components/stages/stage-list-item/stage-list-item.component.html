@@ -1,0 +1,4 @@
+<div [ngClass]="stageClass(stage())" class="stage-list-item">
+    <div class="stage-list-item__round"></div>
+    <div *ngIf="showLabel()" class="stage-list-item__name">{{ stage() }}</div>
+</div>

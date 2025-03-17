@@ -14,12 +14,26 @@
 
 <div class="container">
 
+    <div class="heading">
+        <div class="heading__label">Project List</div>
+
+        <app-sorting (change)="dataSource.changeSort($event)"
+                     [sortPipeName]="'projectSortBy'"
+                     [sortVariants]="sortVariants"
+                     [sort]="dataSource.sortRequest()"
+        ></app-sorting>
+    </div>
+
 
     <div class="content">
         @if (!dataSource.isLoading()) {
             <mat-action-list>
                 @for (project of dataSource.data(); track project.id) {
-                    <app-project [project]="project"></app-project>
+                    <app-project [project]="project"
+                                 (click)="goToProject(project.id)"
+                                 (onEdit)="editProject(project.id)"
+                                 (onDelete)="deleteProject(project.id)"
+                    ></app-project>
                 }
             </mat-action-list>
         } @else {

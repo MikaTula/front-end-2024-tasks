@@ -1,4 +1,51 @@
-<div class="app-issue__project-code">{{ issue().projectCode }}</div>
+<div class="app-issue__project-code">
+    <!--    <app-code [code]="issue().projectCode" [name]=""></app-code>-->
+</div>
 <div class="app-issue__name">{{ issue().name }}</div>
-<div class="app-issue__created-on">{{'Created ' + (issue().createdOn | relativeTime) }}</div>
-<div class="app-issue__priority" [matTooltip]="issue().priority"></div>
+<div class="app-issue__created-on">{{ 'Created ' + (issue().createdOn | relativeTime) }}</div>
+
+<div class="app-issue__stage">
+    <app-stage-list-item (click)="$event.stopPropagation()" [matMenuTriggerFor]="menuStage" [showLabel]="false"
+                         [stage]="issue().stage"></app-stage-list-item>
+</div>
+
+<div class="app-issue__state">
+    <button (click)="$event.stopPropagation();onStateChanged()"
+            mat-button>{{ issue().state === "Open" ? "Close" : "ReOpen" }}
+    </button>
+</div>
+<div class="app-issue__priority">
+    <app-priority-list-item (click)="$event.stopPropagation()" [matMenuTriggerFor]="menuPriority"
+                            [priority]="issue().priority"
+                            [showLabel]="false"></app-priority-list-item>
+</div>
+
+<div class="app-issue__delete">
+    <button (click)="$event.stopPropagation();onDelete.emit()" aria-label="Delete project"
+            mat-icon-button>
+        <mat-icon [color]="'warn'">delete</mat-icon>
+    </button>
+</div>
+
+
+<mat-menu #menuPriority="matMenu">
+    @for (priority of selectablePriorities; track priority) {
+        @if (issue().priority !== priority) {
+            <button mat-menu-item (click)="$event.stopPropagation(); onSetPriority.emit(priority)">
+                <app-priority-list-item [priority]="priority"></app-priority-list-item>
+            </button>
+        }
+    }
+</mat-menu>
+
+
+<mat-menu #menuStage="matMenu">
+    @for (stage of selectableStage; track stage) {
+        @if (issue().stage !== stage) {
+            <button mat-menu-item (click)="$event.stopPropagation(); onSetStage.emit(stage)">
+                <app-stage-list-item [stage]="stage"></app-stage-list-item>
+            </button>
+        }
+    }
+</mat-menu>
+

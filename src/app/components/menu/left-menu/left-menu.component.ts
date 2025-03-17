@@ -1,12 +1,12 @@
-import {Component, computed} from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {MatListSubheaderCssMatStyler, MatNavList} from '@angular/material/list';
 import {MatDivider} from '@angular/material/divider';
 import {IProject} from '../../../interfaces/project.interface';
 import {IProjectResponse} from '../../../interfaces/responses/project/project-response';
-import {MenuProjectDataSource} from '../../../data-sources/menu-project.data-source';
 import {MatIcon} from '@angular/material/icon';
 import {NgStyle} from '@angular/common';
 import {MenuProjectListItemComponent} from '../menu-project-list-item/menu-project-list-item.component';
+import {ProjectCachedService} from '../../../services/project-cached.service';
 
 @Component({
     selector: 'app-left-menu',
@@ -25,15 +25,16 @@ import {MenuProjectListItemComponent} from '../menu-project-list-item/menu-proje
     }
 })
 export class LeftMenuComponent {
-    public dataSource = new MenuProjectDataSource();
+
+    protected projectOpen = true;
+    private _projectCachedService = inject(ProjectCachedService);
     public projectListItems = computed(() => {
-        return this.dataSource.data().map(
+        return this._projectCachedService.getProjectsSignal().map(
             (project: IProjectResponse): IProject => {
                 return {...project};
             }
         );
     });
-    protected projectOpen = true;
 
     protected toggleProjects() {
         this.projectOpen = !this.projectOpen;

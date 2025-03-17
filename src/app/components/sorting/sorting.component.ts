@@ -1,15 +1,16 @@
 import {Component, effect, input, linkedSignal, output, signal} from '@angular/core';
-import {ISortRequest} from '../../../interfaces/requests/sort-request';
-import {IssueSortBy} from '../../../types/issue.types';
-import {ButtonSelectArrowComponent} from '../../button-select-arrow/button-select-arrow.component';
+import {ISortRequest} from '../../interfaces/requests/sort-request';
+import {IssueSortBy} from '../../types/issue.types';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import {ProjectSortBy} from '../../types/project.types';
+import {ButtonSelectArrowComponent} from '../button-select-arrow/button-select-arrow.component';
 import {MatDivider} from '@angular/material/divider';
-import {IssueSortByPipe} from '../../../pipes/issue-sort-by.pipe';
+import {IssueSortByPipe} from '../../pipes/issue-sort-by.pipe';
 
 @Component({
-    selector: 'app-issue-sorting',
+    selector: 'app-sorting',
     imports: [
         MatMenuModule,
         MatButtonModule,
@@ -17,13 +18,15 @@ import {IssueSortByPipe} from '../../../pipes/issue-sort-by.pipe';
         ButtonSelectArrowComponent,
         MatDivider,
         IssueSortByPipe,
-    ],
-    templateUrl: './issue-sorting.component.html',
-    styleUrl: './issue-sorting.component.scss'
-})
-export class IssueSortingComponent {
 
+    ],
+    templateUrl: './sorting.component.html',
+    styleUrl: './sorting.component.scss'
+})
+export class SortingComponent {
+    public sortVariants = input<(IssueSortBy | ProjectSortBy)[]>([]);
     public sort = input.required<ISortRequest>();
+    public sortPipeName = input.required<'issueSortBy' | 'projectSortBy'>();
     public change = output<ISortRequest>();
 
     public readonly sortBy = linkedSignal<string>(() => this.sort().sortBy);
@@ -31,14 +34,6 @@ export class IssueSortingComponent {
 
     public readonly ascLabel = signal<string>('Ascending');
     public readonly descLabel = signal<string>('Descending');
-
-    public readonly sortVariants: IssueSortBy[] = [
-        "Name",
-        "ProjectCode",
-        "Priority",
-        "CreatedOn",
-        "ModifiedOn",
-    ];
 
     constructor() {
         effect(() => {

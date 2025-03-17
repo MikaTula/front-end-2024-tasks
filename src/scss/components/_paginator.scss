@@ -1,5 +1,5 @@
 @mixin component() {
     mat-paginator, [mat-paginator] {
-        --mat-paginator-container-background-color: var(--mat-sys-surface-container);
+        --mat-paginator-container-background-color: var(--mat-sys-surface-container-high);
     }
 }

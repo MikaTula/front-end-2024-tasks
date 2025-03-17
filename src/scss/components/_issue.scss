@@ -36,6 +36,25 @@
         )
     );
 
+    $stage-variants: (
+        "backlog": (
+            "background-color": gray,
+            "color": var(--mat-sys-on-surface-variant),
+        ),
+        "to-do": (
+            "background-color": pink,
+            "color": var(--mat-sys-on-secondary-container),
+        ),
+        "in-progress": (
+            "background-color": blue,
+            "color": var(--mat-sys-on-secondary-container),
+        ),
+        "done": (
+            "background-color": green,
+            "color": var(--mat-sys-on-tertiary-container),
+        )
+    );
+
     .#{$component-prefix}-#{$component-name} {
         @each $variant, $color-map in $marker-variants {
             &--#{$variant} {
@@ -55,6 +74,20 @@
 
         &__created-on {
             @include _private-apply-font(body-medium);
+        }
+    }
+
+    .#{$component-prefix}-#{$component-name} {
+        @each $variant, $color-map in $stage-variants {
+            &--#{$variant} {
+                @each $property, $color in $color-map {
+                    @include _set-token($component-prefix, $component-name, 'stage-#{$property}', $color);
+                }
+            }
+        }
+
+        &__name {
+            @include _private-apply-font(body-small);
         }
     }
 }

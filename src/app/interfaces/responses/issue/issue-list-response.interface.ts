@@ -1,4 +1,4 @@
-﻿import {IssuePriority, IssueState} from '../../../types/issue.types';
+﻿import {IssuePriority, IssueStage, IssueState} from '../../../types/issue.types';
 import {Dayjs} from 'dayjs';
 
 export interface IIssueListResponse {
@@ -8,6 +8,7 @@ export interface IIssueListResponse {
     name: string;
     priority: IssuePriority;
     state: IssueState;
+    stage: IssueStage;
     createdOn: Dayjs;
     modifiedOn: Dayjs;
 }

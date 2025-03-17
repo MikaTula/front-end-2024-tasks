@@ -1,18 +1,16 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: 'issueSortBy'
+    name: 'projectSortBy'
 })
-export class IssueSortByPipe implements PipeTransform {
+export class ProjectSortByPipe implements PipeTransform {
 
     transform(sortBy: string): string {
         switch (sortBy) {
             case 'Name':
                 return 'Name';
-            case "ProjectCode":
+            case "Code":
                 return 'Project Code';
-            case "Priority":
-                return 'Priority';
             case "CreatedOn":
                 return 'Created On';
             case "ModifiedOn":

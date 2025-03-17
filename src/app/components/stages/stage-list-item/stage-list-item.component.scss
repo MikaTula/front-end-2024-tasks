@@ -1,0 +1,19 @@
+.stage-list-item {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    align-items: center;
+    grid-column-gap: 12px;
+    font-size: 14px;
+    color: var(--app-issue-stage-color);
+
+    &__round {
+        display: grid;
+        place-items: center;
+        place-self: center;
+
+        width: 16px;
+        height: 16px;
+        border-radius: 1000px;
+        background-color: var(--app-issue-stage-background-color);
+    }
+}

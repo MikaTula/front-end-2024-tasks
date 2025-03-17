@@ -23,15 +23,23 @@
         <app-projects-selection (change)="selectedProjectIds.set($event)" *ngIf="!isOneProject()"
         ></app-projects-selection>
         <app-priorities-selection (change)="selectedPriorities.set($event)"></app-priorities-selection>
-        <app-issue-sorting (change)="dataSource.changeSort($event)" [sort]="dataSource.sortRequest()"
-        ></app-issue-sorting>
+        <app-sorting (change)="dataSource.changeSort($event)"
+                     [sortPipeName]="'issueSortBy'"
+                     [sortVariants]="sortVariants"
+                     [sort]="dataSource.sortRequest()"
+        ></app-sorting>
     </div>
 
     <div class="content">
         @if (!dataSource.isLoading()) {
             <mat-action-list>
                 @for (issue of dataSource.data(); track issue.id) {
-                    <app-issue [issue]="issue"></app-issue>
+                    <app-issue [issue]="issue" (click)="editIssue(issue.id)"
+                               (onSetPriority)="onSetPriority($event, issue.id)"
+                               (onSetStage)="onSetStage($event, issue.id)"
+                               (onSetState)="onSetState($event, issue.id)"
+                               (onDelete)="onDelete(issue.id)"
+                    ></app-issue>
                 }
             </mat-action-list>
         } @else {

@@ -1,4 +1,12 @@
-﻿:host {
+﻿@mixin _private-apply-font($type-scale) {
+    font-size: var(--mat-sys-#{$type-scale}-size);
+    font-weight: var(--mat-sys-#{$type-scale}-weight);
+    letter-spacing: var(--mat-sys-#{$type-scale}-tracking);
+    line-height: var(--mat-sys-#{$type-scale}-line-height);
+}
+
+
+:host {
     display: grid;
     position: relative;
     overflow: hidden;
@@ -7,14 +15,16 @@
 
     grid: {
         template: {
-            columns: min-content 1fr min-content;
+            columns: min-content 1fr 200px 40px 40px;
             rows: min-content min-content;
-            areas: "project-code name priority" "project-code created-on priority";
+            areas: "project-code project-name project-created project-action-edit project-action-delete" "project-code project-name project-updated  project-action-edit project-action-delete";
         }
         column-gap: 16px;
     }
 
     padding: 8px 16px;
+    margin: 8px;
+    border-radius: 8px;;
 
     color: var(--mat-sys-on-surface);
 
@@ -33,61 +43,57 @@
     }
 
     .app-project {
-        &__project-code {
+        &__code {
             grid-area: project-code;
-            white-space: nowrap;
-            position: relative;
-            box-sizing: border-box;
-            place-self: center;
-            overflow: hidden;
+            display: grid;
+            align-items: center;
 
             width: 40px;
             height: 40px;
             padding: 4px;
 
-            border-radius: var(--mat-sys-corner-small);
-            background-color: var(--mat-sys-primary-container);
-            color: var(--mat-sys-on-primary-container);
-
-            &::after {
-                content: '';
-                position: absolute;
-                inset-inline: 0;
-                bottom: 0;
-                height: 4px;
-                background-color: var(--mat-sys-primary);
-            }
         }
 
         &__name {
-            grid-area: name;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            grid-area: project-name;
+            display: grid;
+            align-items: center;
         }
 
         &__created-on {
-            grid-area: created-on;
-
-            color: var(--mat-sys-on-surface-variant);
+            grid-area: project-created;
+            display: flex;
+            align-items: center;
+            @include _private-apply-font(body-small);
         }
 
-        &__priority {
-            grid-area: priority;
+        &__modified-on {
+            grid-area: project-updated;
+            display: flex;
+            align-items: center;
+            @include _private-apply-font(body-small);
+        }
+
+        &__actions-edit {
+            grid-area: project-action-edit;
             display: grid;
-            place-items: center;
-            place-self: center;
+            align-items: center;
+            border-radius: 1000px;
+            cursor: pointer;
+        }
 
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-
-            background-color: var(--app-issue-marker-background-color);
-            color: var(--app-issue-marker-color);
-
-            &::after {
-                content: var(--app-issue-marker-letter);
-            }
+        &__actions-delete {
+            grid-area: project-action-delete;
+            display: grid;
+            align-items: center;
+            border-radius: 1000px;
+            cursor: pointer;
         }
     }
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

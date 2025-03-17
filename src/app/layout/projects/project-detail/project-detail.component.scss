@@ -7,7 +7,9 @@
     "content content content";
     grid-gap: 24px;
     grid-template-rows: 60px  minmax(min-content, 40px)  minmax(min-content, 40px) auto;
-    grid-template-columns:  1fr minmax(1fr, 400px);
+    // grid-template-columns:  1fr 1fr minmax(1fr, 400px);
+    grid-template-columns:  1fr 1fr minmax(100px, 400px);
+
     height: 100%;
 
     &__name-block {
@@ -20,9 +22,13 @@
 
     &__description {
         grid-area: description;
-        background-color: var(--mat-sys-surface-bright);
+        background-color: var(--mat-sys-surface-container);
         border-radius: 8px;
         padding: 8px;
+
+        overflow-y: auto;
+        overflow-x: auto;
+        max-height: 200px;
     }
 
     &__dates {
@@ -45,11 +51,7 @@
     }
 
     .description {
-
-        display: -webkit-box;
-        -webkit-line-clamp: 8;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        display: flex;
         white-space: pre;
     }
 

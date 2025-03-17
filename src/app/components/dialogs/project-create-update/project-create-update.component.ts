@@ -6,7 +6,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {ProjectService} from '../../../services/project.service';
-import {Router} from '@angular/router';
 import {take} from 'rxjs';
 
 @Component({
@@ -37,7 +36,6 @@ export class ProjectCreateUpdateComponent implements OnInit {
     });
     protected presetProjectId = signal<string | null>(null);
     private readonly _projectService = inject(ProjectService);
-    private readonly _router = inject(Router);
     private readonly _dialogRef = inject(MatDialogRef<ProjectCreateUpdateComponent>);
 
     constructor(@Inject(MAT_DIALOG_DATA) data: { projectId: string }) {
@@ -57,7 +55,6 @@ export class ProjectCreateUpdateComponent implements OnInit {
     public onSave() {
         if (this.isInvalidState()) return;
 
-
         const presetProjectId = this.presetProjectId();
         if (presetProjectId) {
             this._projectService.updateProject(presetProjectId, {
@@ -70,12 +67,7 @@ export class ProjectCreateUpdateComponent implements OnInit {
                 code: this.form.controls.code.value,
                 name: this.form.controls.name.value,
                 description: this.form.controls.description.value ?? null
-            }).subscribe(() => this._dialogRef.close())
-            // {
-            //     next: data => {
-            //         let projectUrl = this._router.createUrlTree([data.id]);
-            //         this._router.navigateByUrl(projectUrl).then();
-            //     })
+            }).subscribe((project) => this._dialogRef.close(project))
         }
     }
 

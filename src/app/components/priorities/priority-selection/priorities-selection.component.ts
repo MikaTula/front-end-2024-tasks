@@ -1,10 +1,10 @@
 import {Component, output, signal} from '@angular/core';
-import {IssuePriority} from '../../types/issue.types';
-import {ButtonSelectArrowComponent} from '../button-select-arrow/button-select-arrow.component';
+import {IssuePriority, selectablePriorities} from '../../../types/issue.types';
+import {ButtonSelectArrowComponent} from '../../button-select-arrow/button-select-arrow.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
-import {NgClass} from '@angular/common';
+import {PriorityListItemComponent} from '../priority-list-item/priority-list-item.component';
 
 @Component({
     selector: 'app-priorities-selection',
@@ -13,7 +13,7 @@ import {NgClass} from '@angular/common';
         MatButtonModule,
         MatIconModule,
         ButtonSelectArrowComponent,
-        NgClass
+        PriorityListItemComponent
     ],
     templateUrl: './priorities-selection.component.html',
     styleUrl: './priorities-selection.component.scss'
@@ -21,15 +21,8 @@ import {NgClass} from '@angular/common';
 export class PrioritiesSelectionComponent {
 
     public change = output<IssuePriority[]>();
-
+    public readonly selectablePriorities = selectablePriorities
     private readonly selectedPriorities = signal<IssuePriority[]>([]);
-
-    public readonly selectablePriorities: IssuePriority[] = [
-        "Critical",
-        "Major",
-        "Normal",
-        "Minor"
-    ];
 
     public isSelected(priority: IssuePriority): boolean {
         return this.selectedPriorities().indexOf(priority) > -1;
@@ -45,20 +38,5 @@ export class PrioritiesSelectionComponent {
             return selectedPriorities;
         });
         this.change.emit([...this.selectedPriorities()]);
-    }
-
-    public priorityClass(priority: IssuePriority) {
-        switch (priority) {
-            case "Minor":
-                return 'app-issue--minor';
-            case "Normal":
-                return 'app-issue--normal';
-            case "Major":
-                return 'app-issue--major';
-            case "Critical":
-                return 'app-issue--critical';
-            default:
-                return '';
-        }
     }
 }

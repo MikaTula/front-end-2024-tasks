@@ -53,7 +53,6 @@ export class ProjectDetailComponent {
                     (project) => this.project.set(project)
                 );
             }
-
         });
     }
 
@@ -61,6 +60,7 @@ export class ProjectDetailComponent {
     set projectId(projectId: string) {
         this.projectIdInner.set(projectId)
     }
+
 
     protected editProject() {
 

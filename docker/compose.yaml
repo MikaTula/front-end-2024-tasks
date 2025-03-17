@@ -2,7 +2,7 @@
 
 services:
     nginx:
-        image: nginx:1.27-alpine
+        image: nginx:1.23
         volumes:
             - ./nginx/templates:/etc/nginx/templates
             - ../dist/welcome-app/browser:/usr/share/nginx/html

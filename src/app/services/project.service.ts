@@ -48,7 +48,6 @@ export class ProjectService {
     }
 
     public createProject(request: IProjectRequest): Observable<IProject> {
-        // const headers = new HttpHeaders({'Content-Type': 'application/json'});
         return this._http.post<IProject>(this._apiPath, JSON.stringify(request)).pipe(
             tap(() => this._projectRootService.event$.next(CommonEventEnum.created))
         );
@@ -57,6 +56,12 @@ export class ProjectService {
     public updateProject(id: string, request: IProjectRequest): Observable<IProject> {
         return this._http.put<IProject>(`${this._apiPath}/${id}`, JSON.stringify(request)).pipe(
             tap(() => this._projectRootService.event$.next(CommonEventEnum.created))
+        );
+    }
+
+    public delete(id: string): Observable<void> {
+        return this._http.delete<void>(`${this._apiPath}/${id}`).pipe(
+            tap(() => this._projectRootService.event$.next(CommonEventEnum.deleted))
         );
     }
 

@@ -2,8 +2,8 @@ import {Component, output, signal} from '@angular/core';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {ButtonSelectArrowComponent} from '../button-select-arrow/button-select-arrow.component';
-import {ProjectDataSource} from '../../data-sources/project.data-source';
 import {MatIconModule} from '@angular/material/icon';
+import {MenuProjectDataSource} from '../../data-sources/menu-project.data-source';
 
 @Component({
     selector: 'app-projects-selection',
@@ -20,7 +20,7 @@ export class ProjectsSelectionComponent {
 
     public change = output<string[]>();
 
-    public dataSource = new ProjectDataSource();
+    public dataSource = new MenuProjectDataSource();
 
     private readonly selectedIds = signal<string[]>([]);
 

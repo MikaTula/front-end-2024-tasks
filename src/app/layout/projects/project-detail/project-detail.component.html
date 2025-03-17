@@ -28,13 +28,11 @@
     </div>
 
     <div class="project-detail-wrap__description">
-        <div class="description">
-            {{ project()?.description }}
-        </div>
+        <div class="description">{{ project()?.description }}</div>
     </div>
 
     <div class="project-detail-wrap__controls">
-        <button mat-flat-button (click)="editProject()">
+        <button (click)="editProject()" mat-flat-button>
             <mat-icon>create</mat-icon>
             Edit Project
         </button>
@@ -45,9 +43,9 @@
     </div>
 
     <button
-        mat-fab
+        (click)="createIssue()"
         aria-label="Create new issue"
-        (click)="createIssue()">
+        mat-fab>
         <mat-icon>add</mat-icon>
     </button>
 

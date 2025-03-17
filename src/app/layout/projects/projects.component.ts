@@ -15,6 +15,8 @@ import {Router} from '@angular/router';
 import {MatIcon} from '@angular/material/icon';
 import {ProjectComponent} from '../../components/projects/project/project.component';
 import {PaginatorComponent} from '../../components/paginator/paginator.component';
+import {SortingComponent} from '../../components/sorting/sorting.component';
+import {projectSortVariants} from '../../types/project.types';
 
 
 @Component({
@@ -30,7 +32,8 @@ import {PaginatorComponent} from '../../components/paginator/paginator.component
         MatInputModule,
         MatIcon,
         ProjectComponent,
-        PaginatorComponent
+        PaginatorComponent,
+        SortingComponent
     ],
     templateUrl: './projects.component.html',
     styleUrl: './projects.component.scss'
@@ -38,8 +41,11 @@ import {PaginatorComponent} from '../../components/paginator/paginator.component
 export class ProjectsComponent {
     public readonly dataSource = new ProjectDataSource();
     public readonly searchControl = new FormControl<string>(this.dataSource.filterRequest().searchTerm ?? '');
+
+    public readonly sortVariants = projectSortVariants;
     private _router = inject(Router);
     private readonly _projectPopupService = inject(ProjectPopupService);
+
 
     private readonly searchControlChanges = toSignal(this.searchControl.valueChanges.pipe(debounceTime(250)));
     private readonly filterRequest = computed<IProjectFilterRequest>(() => {
@@ -57,12 +63,24 @@ export class ProjectsComponent {
 
     public createProject() {
         const popupRef = this._projectPopupService.openCreateProject()
-
         popupRef.afterClosed().subscribe(result => {
             if (!result) return;
-            this.dataSource.reload();
-            this._router.navigate(['projects', result?.id]).then();
+            this.goToProject(result?.id)
         });
     }
+
+    public editProject(id: string) {
+        this._projectPopupService.openEditProject(id);
+    }
+
+
+    public deleteProject(id: string) {
+        this._projectPopupService.deleteProject(id);
+    }
+
+    public goToProject(id: string) {
+        this._router.navigate(['projects', id]).then();
+    }
+
 
 }

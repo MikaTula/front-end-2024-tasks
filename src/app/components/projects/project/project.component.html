@@ -1,4 +1,28 @@
-<div class="app-issue__project-code">{{ project().code }}</div>
-<div class="app-issue__name">{{ project().name }}</div>
-<div class="app-issue__created-on">{{ 'modifiedOn ' + (project().modifiedOn | relativeTime) }}</div>
+<div class="app-project__code">
+    <app-code [code]="project().code" [name]="project().name"></app-code>
+</div>
+
+<div class="app-project__name">
+    <div class="ellipsis">
+        {{ project().name }}
+    </div>
+</div>
+
+<div class="app-project__created-on">Created:&nbsp;<i>{{ project().createdOn | relativeTime }}</i></div>
+
+<div class="app-project__modified-on">Modified:&nbsp;<i>{{ project().modifiedOn | relativeTime }}</i></div>
+
+<div class="app-project__actions-edit">
+    <button (click)="$event.stopImmediatePropagation();onEdit.emit(project().id)" aria-label="Edit project"
+            mat-icon-button>
+        <mat-icon>create</mat-icon>
+    </button>
+</div>
+<div class="app-project__actions-delete">
+    <button (click)="$event.stopImmediatePropagation();onDelete.emit(project().id)" aria-label="Delete project"
+            mat-icon-button>
+        <mat-icon [color]="'warn'">delete</mat-icon>
+    </button>
+</div>
+
 

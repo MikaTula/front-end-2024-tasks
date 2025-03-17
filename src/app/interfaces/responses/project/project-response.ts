@@ -5,5 +5,6 @@ export interface IProjectResponse {
     name: string;
     code: string;
     description: string;
+    createdOn: Dayjs;
     modifiedOn: Dayjs;
 }

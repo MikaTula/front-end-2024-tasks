@@ -1,14 +1,20 @@
-import {Component, input} from '@angular/core';
+import {Component, input, output} from '@angular/core';
 import {MatRipple} from '@angular/material/core';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {IProjectResponse} from '../../../interfaces/responses/project/project-response';
 import {RelativeTimePipe} from '../../../pipes/relative-time.pipe';
+import {CodeComponent} from '../../menu/code/code.component';
+import {MatIcon} from '@angular/material/icon';
+import {MatIconButton} from '@angular/material/button';
 
 @Component({
     selector: 'app-project',
     imports: [
         MatTooltipModule,
-        RelativeTimePipe
+        RelativeTimePipe,
+        CodeComponent,
+        MatIcon,
+        MatIconButton
     ],
     templateUrl: './project.component.html',
     styleUrls: ['./project.component.scss'],
@@ -22,20 +28,7 @@ import {RelativeTimePipe} from '../../../pipes/relative-time.pipe';
 export class ProjectComponent {
 
     public readonly project = input.required<IProjectResponse>();
-
-    // @HostBinding('class') get class() {
-    //     switch (this.project().priority) {
-    //         case "Minor":
-    //             return 'app-issue--minor';
-    //         case "Normal":
-    //             return 'app-issue--normal';
-    //         case "Major":
-    //             return 'app-issue--major';
-    //         case "Critical":
-    //             return 'app-issue--critical';
-    //         default:
-    //             return '';
-    //     }
-    // }
+    public readonly onEdit = output<string>();
+    public readonly onDelete = output<string>();
 
 }

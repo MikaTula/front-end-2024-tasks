@@ -4,7 +4,7 @@ import {IssueComponent} from '../../components/issues/issue/issue.component';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {debounceTime} from 'rxjs';
-import {IssuePriority, IssueState} from '../../types/issue.types';
+import {IssuePriority, issueSortVariants, IssueStage, IssueState} from '../../types/issue.types';
 import {IIssueFilterRequest} from '../../interfaces/requests/project/issue-filter-request';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -14,13 +14,15 @@ import {MatMenuModule} from '@angular/material/menu';
 import {ProjectsSelectionComponent} from '../../components/projects-selection/projects-selection.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatIcon} from '@angular/material/icon';
-import {PrioritiesSelectionComponent} from '../../components/priority-selection/priorities-selection.component';
-import {MatDialog} from '@angular/material/dialog';
-import {IssueSortingComponent} from '../../components/issues/issue-sorting/issue-sorting.component';
+import {
+    PrioritiesSelectionComponent
+} from '../../components/priorities/priority-selection/priorities-selection.component';
 import {NgIf} from '@angular/common';
 import {ProjectPopupService} from '../../services/project.popup.service';
 import {IssuePopupService} from '../../services/issue.popup.service';
 import {PaginatorComponent} from '../../components/paginator/paginator.component';
+import {SortingComponent} from '../../components/sorting/sorting.component';
+import {IssueService} from '../../services/issue.service';
 
 @Component({
     selector: 'app-issues',
@@ -37,9 +39,10 @@ import {PaginatorComponent} from '../../components/paginator/paginator.component
         MatInputModule,
         MatIcon,
         PrioritiesSelectionComponent,
-        IssueSortingComponent,
         NgIf,
-        PaginatorComponent
+        PaginatorComponent,
+        SortingComponent,
+
     ],
     templateUrl: './issues.component.html',
     styleUrl: './issues.component.scss'
@@ -51,15 +54,15 @@ export class IssuesComponent {
     public readonly selectedState = signal<IssueState>(this.dataSource.filterRequest().state ?? "Open");
     public readonly selectedProjectIds = signal<string[]>(this.dataSource.filterRequest().projectIds ?? []);
     public readonly selectedPriorities = signal<IssuePriority[]>(this.dataSource.filterRequest().priorities ?? []);
+    public readonly sortVariants = issueSortVariants;
     protected readonly isOneProject = computed(() => {
             const projectId = this.projectId();
             return typeof (projectId) === 'string';
         }
     );
-    private readonly _dialog = inject(MatDialog);
     private readonly _projectPopupService = inject(ProjectPopupService);
     private readonly _issuePopupService = inject(IssuePopupService);
-
+    private readonly _issueService = inject(IssueService);
     private readonly searchControlChanges = toSignal(this.searchControl.valueChanges.pipe(debounceTime(250)));
     private readonly filterRequest = computed<IIssueFilterRequest>(() => {
         return {
@@ -82,6 +85,7 @@ export class IssuesComponent {
                 this.selectedProjectIds.set([projectId])
             }
         });
+
     }
 
     public onStateChanged(change: MatChipListboxChange) {
@@ -89,21 +93,33 @@ export class IssuesComponent {
         this.selectedState.set(change.value);
     }
 
-    public createIssue() {
-        const popupRef = this._issuePopupService.openCreateIssue(this.projectId());
+    public editIssue(id: string) {
+        this._issuePopupService.openEditIssue(id);
+    }
 
-        popupRef.afterClosed().subscribe(result => {
-            if (!result) return;
-            this.dataSource.reload();
-        });
+    public createIssue() {
+        this._issuePopupService.openCreateIssue(this.projectId());
     }
 
     public createProject() {
-        const popupRef = this._projectPopupService.openCreateProject()
-
-        popupRef.afterClosed().subscribe(result => {
-            if (!result) return;
-            this.dataSource.reload();
-        });
+        this._projectPopupService.openCreateProject()
     }
+
+    public onSetPriority(priority: IssuePriority, id: string) {
+        this._issueService.setPriority(id, priority).subscribe();
+    }
+
+    public onSetStage(stage: IssueStage, id: string) {
+        this._issueService.setStage(id, stage).subscribe();
+    }
+
+    public onSetState(state: IssueState, id: string) {
+        this._issueService.setState(id, state).subscribe();
+    }
+
+
+    public onDelete(id: string) {
+        this._issuePopupService.deleteIssue(id);
+    }
+
 }

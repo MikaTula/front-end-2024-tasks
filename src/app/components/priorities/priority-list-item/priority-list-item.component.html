@@ -1,0 +1,4 @@
+<div [ngClass]="priorityClass(priority())" class="priority-list-item">
+    <div class="priority-list-item__code"></div>
+    <div *ngIf="showLabel()" class="priority-list-item__name">{{ priority() }}</div>
+</div>
