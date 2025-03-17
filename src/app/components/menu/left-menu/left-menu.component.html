@@ -1,6 +1,6 @@
 <mat-nav-list>
     <div (click)="toggleProjects()" class="subheader" mat-subheader>
-        Projects
+        Projects ({{ projectListItems().length }})
         @if (projectOpen) {
             <mat-icon>arrow_drop_down</mat-icon>
         } @else {
@@ -19,34 +19,11 @@
 </mat-nav-list>
 
 
-<mat-nav-list>
-    <!--    <div mat-subheader>Projects</div>-->
-    <!--        @for (project-detail of dataSource.$data | async; track project-detail.id) {-->
-    <!--          <project-detail-list-item [project-detail]="project-detail"></project-detail-list-item>-->
-    <!--          &lt;!&ndash;      <mat-list-item routerLink="{{ project-detail.id }}" routerLinkActive="active">&ndash;&gt;-->
+<!--<mat-nav-list>-->
+<!--   -->
+<!--    <mat-divider></mat-divider>-->
 
-    <!--            &lt;!&ndash;        <mat-icon matListItemIcon>folder</mat-icon>&ndash;&gt;-->
-    <!--            &lt;!&ndash;        <div matListItemTitle>{{ project-detail.name }}</div>&ndash;&gt;-->
-    <!--            &lt;!&ndash;        <div matListItemLine>{{ project-detail.code }}</div>&ndash;&gt;-->
-    <!--            &lt;!&ndash;      </mat-list-item>&ndash;&gt;-->
-    <!--        }-->
-    <mat-divider></mat-divider>
-
-    <div mat-subheader>Notes 22</div>
-
-    <!--    <mat-list-item>-->
-    <!--        <mat-icon matListItemIcon>note</mat-icon>-->
-    <!--        <div matListItemTitle>{{ 123 }}</div>-->
-    <!--        <div matListItemLine>{{ 3333 }}</div>-->
-    <!--    </mat-list-item>-->
-
-    <!--    <mat-divider></mat-divider>-->
-
-    <!--    <mat-list-item (click)="recreateProject()">-->
-    <!--      <mat-icon matListItemIcon>note_add</mat-icon>-->
-    <!--      <div matListItemTitle>Recreate Projects</div>-->
-    <!--      <div matListItemLine>Recreate all</div>-->
-    <!--    </mat-list-item>-->
+<!--    <div mat-subheader>Notes 22</div>-->
 
 
-</mat-nav-list>
+<!--</mat-nav-list>-->

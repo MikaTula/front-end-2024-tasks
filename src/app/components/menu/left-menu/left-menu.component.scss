@@ -1,3 +1,4 @@
+@use '../../../../scss/components/common' as common;
 
 .subheader {
     display: flex;
@@ -5,6 +6,9 @@
     align-items: center;
     cursor: pointer;
     border-radius: 1000px;
+    @media (width < common.$breakpoint-medium) {
+        display: none;
+    }
 }
 
 .content-wrapper {
