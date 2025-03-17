@@ -1,3 +1,5 @@
+@use '../../../../scss/components/common' as common;
+
 .project-list-item {
     &__wrap {
         display: grid;
@@ -10,6 +12,13 @@
         &__title {
             display: grid;
             align-items: center;
+        }
+
+        @media (width < common.$breakpoint-medium) {
+            &__title {
+                display: none;
+            }
+
         }
     }
 }
