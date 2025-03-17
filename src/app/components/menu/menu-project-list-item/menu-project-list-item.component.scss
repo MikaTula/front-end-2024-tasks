@@ -15,6 +15,7 @@
         }
 
         @media (width < common.$breakpoint-medium) {
+            grid-template-columns: 1fr;
             &__title {
                 display: none;
             }

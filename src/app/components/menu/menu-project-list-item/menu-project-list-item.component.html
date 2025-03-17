@@ -6,8 +6,8 @@
             [name]="project().name"
         >
         </app-code>
-
-        <div class="project-list-item__wrap__title">
+        
+        <div class="project-list-item__wrap__title" *ngIf="isVisible()">
             <div class="ellipsis">
                 {{ project().name }}
             </div>

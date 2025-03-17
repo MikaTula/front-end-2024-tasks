@@ -1,4 +1,6 @@
-﻿:host {
+﻿@use '../../../../scss/components/common' as common;
+
+:host {
     display: grid;
     position: relative;
     overflow: hidden;
@@ -7,11 +9,16 @@
 
     grid: {
         template: {
-            columns: min-content 1fr min-content min-content min-content;
+            columns: min-content 1fr 80px min-content 100px min-content;
             rows: min-content min-content;
             areas: "project-code name stage state priority delete" "project-code created-on stage state priority delete";
         }
         column-gap: 16px;
+    }
+    @media (width < common.$breakpoint-medium) {
+        & {
+            grid-template-columns: min-content 1fr 24px min-content 40px min-content;
+        }
     }
 
     padding: 8px 16px;
@@ -63,31 +70,35 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-size: 14px;
     }
 
     .app-issue__created-on {
         grid-area: created-on;
 
         color: var(--mat-sys-on-surface-variant);
+        font-size: 12px;
     }
 
     .app-issue__stage {
         grid-area: stage;
         display: grid;
-        place-items: center;
+        justify-content: start;
+        align-items: center;
     }
 
     .app-issue__state {
         grid-area: state;
         display: grid;
-        place-items: center;
+        justify-content: start;
+        align-items: center;
     }
 
     .app-issue__priority {
         grid-area: priority;
         display: grid;
-        place-items: center;
-        place-self: center;
+        justify-content: start;
+        align-items: center;
 
     }
 

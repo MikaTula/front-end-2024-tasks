@@ -6,9 +6,9 @@
     "controls controls description"
     "content content content";
     grid-gap: 24px;
+    grid-template-columns: 1fr 1fr minmax(100px, 1fr);
     grid-template-rows: 60px  minmax(min-content, 40px)  minmax(min-content, 40px) auto;
-    // grid-template-columns:  1fr 1fr minmax(1fr, 400px);
-    grid-template-columns:  1fr 1fr minmax(100px, 400px);
+
 
     height: 100%;
 
@@ -52,7 +52,6 @@
 
     .description {
         display: flex;
-        white-space: pre;
     }
 
     .dates {

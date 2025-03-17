@@ -9,7 +9,7 @@
     height: 100%;
     @media (width < common.$breakpoint-medium) {
         & {
-            grid-template-columns: 80px 1fr;
+            grid-template-columns: 92px 1fr;
         }
     }
 }
@@ -19,6 +19,12 @@ main {
 
     padding-inline: 8px;
     padding-bottom: 16px;
+
+    @media (width < common.$breakpoint-medium) {
+        & {
+            min-width: 500px;
+        }
+    }
 }
 
 .header {

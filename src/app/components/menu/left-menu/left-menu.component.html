@@ -1,29 +1,32 @@
 <mat-nav-list>
-    <div (click)="toggleProjects()" class="subheader" mat-subheader>
-        Projects ({{ projectListItems().length }})
-        @if (projectOpen) {
-            <mat-icon>arrow_drop_down</mat-icon>
-        } @else {
-            <mat-icon>arrow_drop_up</mat-icon>
-        }
-    </div>
 
-    <div [class.content-wrapper--active]="projectOpen" [ngStyle]="{'--count-item': projectListItems().length}"
-         class="content-wrapper"
-    >
-        @for (project of projectListItems(); track project.id) {
-            <app-menu-project-list-item [project]="project"></app-menu-project-list-item>
-        }
-    </div>
+    <div class="list-wrap">
+        <div (click)="toggleProjects()" class="subheader" mat-subheader>
+            <span class="subheader__title">Projects ({{ projectListItems().length }})</span>
 
+            @if (projectOpen) {
+                <mat-icon>arrow_drop_down</mat-icon>
+            } @else {
+                <mat-icon>arrow_drop_up</mat-icon>
+            }
+        </div>
+        <cdk-virtual-scroll-viewport [itemSize]="projectListItems().length" class="virtual-example-viewport">
+            <div [class.content-wrapper--active]="projectOpen"
+                 [ngStyle]="{'--count-item': projectListItems().length}"
+                 class="content-wrapper"
+            >
+                @for (project of projectListItems(); track project.id) {
+                    <app-menu-project-list-item [project]="project"></app-menu-project-list-item>
+                }
+            </div>
+        </cdk-virtual-scroll-viewport>
+    </div>
 </mat-nav-list>
 
-
-<!--<mat-nav-list>-->
-<!--   -->
-<!--    <mat-divider></mat-divider>-->
-
-<!--    <div mat-subheader>Notes 22</div>-->
-
-
-<!--</mat-nav-list>-->
+<mat-nav-list>
+    <div mat-subheader class="subheader">Actions</div>
+    <mat-list-item (click)="generate()">
+        <mat-icon matListItemIcon>restart_alt</mat-icon>
+        <div matListItemTitle>ReGenerate Data</div>
+    </mat-list-item>
+</mat-nav-list>
