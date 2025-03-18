@@ -6,6 +6,7 @@
         "start": "ng serve",
         "build": "ng build",
         "watch": "ng build --watch --configuration development",
+        "watch-work": "ng build --watch --configuration development --base-href /work/",
         "test": "ng test"
     },
     "private": true,

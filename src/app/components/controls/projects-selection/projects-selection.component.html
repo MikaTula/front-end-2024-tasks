@@ -1,7 +1,7 @@
 <button mat-button [matMenuTriggerFor]="menu">
     <div class="inner">
         Projects
-        <app-button-select-arrow></app-button-select-arrow>
+        <app-button-select-arrow *ngIf="!breakpointService.isXSmall()"></app-button-select-arrow>
     </div>
 </button>
 
@@ -10,7 +10,9 @@
         <button mat-menu-item (click)="$event.stopPropagation(); onItemClick(project.id)">
             <mat-icon>{{ isSelected(project.id) ? 'check' : '' }}</mat-icon>
             <div class="project">
-                <div class="project__code">{{ project.code }}</div>
+                <div class="project__code">
+                    <app-code [name]="project.name" [code]="project.code"></app-code>
+                </div>
                 <div class="project__name">{{ project.name }}</div>
             </div>
         </button>

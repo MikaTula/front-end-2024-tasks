@@ -27,6 +27,14 @@
     <div mat-subheader class="subheader">
         <span class="subheader__title">Actions</span>
     </div>
+    <mat-list-item routerLink="projects">
+        <mat-icon matListItemIcon>topic_alt</mat-icon>
+        <div matListItemTitle>All Projects</div>
+    </mat-list-item>
+    <mat-list-item routerLink="issues">
+        <mat-icon matListItemIcon>task_alt</mat-icon>
+        <div matListItemTitle>All Issues</div>
+    </mat-list-item>
     <mat-list-item (click)="generate()">
         <mat-icon matListItemIcon>restart_alt</mat-icon>
         <div matListItemTitle>ReGenerate Data</div>

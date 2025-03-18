@@ -6,6 +6,7 @@ import {SecuredAreaComponent} from './layout/secured-area/secured-area.component
 import {AuthComponent} from './layout/auth/auth.component';
 import {SignUpComponent} from './layout/auth/sign-up/sign-up.component';
 import {ProjectDetailComponent} from './layout/projects/project-detail/project-detail.component';
+import {IssuesComponent} from './layout/issues/issues.component';
 
 export const routes: Routes = [
     {
@@ -14,26 +15,19 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             {
-                path: 'projects',
-                component: ProjectsComponent,
-                children: [
-                    // {
-                    //     path: 'new',
-                    //     component: AddProjectComponent
-                    // },
-                    // {
-                    //     path: ':projectId',
-                    //     component: ProjectDetailComponent
-                    // }
-                ]
-            },
-            {
                 path: 'projects/:projectId',
                 component: ProjectDetailComponent
             },
             {
+                path: 'projects',
+                component: ProjectsComponent,
+            },
+            {
                 path: '',
                 component: ProjectsComponent
+            }, {
+                path: 'issues',
+                component: IssuesComponent,
             }
         ]
     },

@@ -8,6 +8,7 @@ import {MenuProjectListItemComponent} from '../menu-project-list-item/menu-proje
 import {ProjectCachedService} from '../../../services/project-cached.service';
 import {GenerateService} from '../../../services/generate.service';
 import {CdkFixedSizeVirtualScroll, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {RouterLink} from '@angular/router';
 
 @Component({
     selector: 'app-left-menu',
@@ -19,7 +20,8 @@ import {CdkFixedSizeVirtualScroll, CdkVirtualScrollViewport} from '@angular/cdk/
         MenuProjectListItemComponent,
         MatListItem,
         CdkVirtualScrollViewport,
-        CdkFixedSizeVirtualScroll
+        CdkFixedSizeVirtualScroll,
+        RouterLink
     ],
     templateUrl: './left-menu.component.html',
     styleUrl: './left-menu.component.scss',

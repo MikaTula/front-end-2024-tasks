@@ -83,6 +83,7 @@
     padding: 8px 16px;
 
     background-color: var(--mat-sys-surface-container-high);
+    overflow-x: auto;
 
     &__label {
         display: flex;

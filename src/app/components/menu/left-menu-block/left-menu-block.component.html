@@ -1,7 +1,0 @@
-<div mat-subheader mat-ripple class="subheader">
-    All Projects
-    <mat-icon>arrow_drop_down</mat-icon>
-</div>
-@for (project of projectListItems(); track project.id) {
-    <project-list-item [project]="project"></project-list-item>
-}

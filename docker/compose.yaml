@@ -2,7 +2,7 @@
 
 services:
     nginx:
-        image: nginx:1.23
+        image: nginx:1.27
         volumes:
             - ./nginx/templates:/etc/nginx/templates
             - ../dist/welcome-app/browser:/usr/share/nginx/html
@@ -29,8 +29,9 @@ services:
             CM25SERVER_DATABASE: "mongodb://mongodb/cm25server?retryWrites=false"
         networks:
             - cm25
+            
     frontend:
-        image: vordi/cm25-client:0.1.0
+        image: mikatula/cm-front-25:latest
         container_name: frontend
         networks:
             - cm25

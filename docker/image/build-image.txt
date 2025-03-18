@@ -1,3 +1,13 @@
 ﻿docker buildx build -f Dockerfile -t vordi/cm25-client:0.1.0 -t vordi/cm25-client:latest --build-context client="../../" --build-context nginx-templates="./nginx/templates" .
 
 docker push vordi/cm25-client -a
+
+
+mikatula/cm-front-25
+https://github.com/MikaTula/front-end-2024-tasks/
+https://hub.docker.com/r/mikatula/cm-front-25
+
+docker buildx build -f Dockerfile -t mikatula/cm-front-25:0.1.0 -t mikatula/cm-front-25:latest --build-context client="../../" --build-context nginx-templates="./nginx/templates" .
+
+
+docker push mikatula/cm-front-25 -a

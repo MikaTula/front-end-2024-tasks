@@ -1,6 +1,6 @@
-<div class="app-issue__project-code">
-    <!--    <app-code [code]="issue().projectCode" [name]=""></app-code>-->
-</div>
+<!--<div class="app-issue__project-code">-->
+<!--    &lt;!&ndash;    <app-code [code]="issue().projectCode" [name]=""></app-code>&ndash;&gt;-->
+<!--</div>-->
 <div class="app-issue__name">{{ issue().name }}</div>
 <div class="app-issue__created-on">
     <div class="ellipsis">{{ 'Created ' + (issue().createdOn | relativeTime) }}</div>
@@ -10,6 +10,16 @@
     <app-stage-list-item (click)="$event.stopPropagation()" [matMenuTriggerFor]="menuStage"
                          [showLabel]="breakpointService.isLarge() || breakpointService.isSmall()"
                          [stage]="issue().stage"></app-stage-list-item>
+
+    <mat-menu #menuStage="matMenu">
+        @for (stage of selectableStage; track stage) {
+            @if (issue().stage !== stage) {
+                <button mat-menu-item (click)="$event.stopPropagation(); onSetStage.emit(stage)">
+                    <app-stage-list-item [stage]="stage"></app-stage-list-item>
+                </button>
+            }
+        }
+    </mat-menu>
 </div>
 
 <div class="app-issue__state">
@@ -22,6 +32,16 @@
                             [priority]="issue().priority"
                             [showLabel]="breakpointService.isLarge() || breakpointService.isSmall()"
     ></app-priority-list-item>
+
+    <mat-menu #menuPriority="matMenu">
+        @for (priority of selectablePriorities; track priority) {
+            @if (issue().priority !== priority) {
+                <button mat-menu-item (click)="$event.stopPropagation(); onSetPriority.emit(priority)">
+                    <app-priority-list-item [priority]="priority"></app-priority-list-item>
+                </button>
+            }
+        }
+    </mat-menu>
 </div>
 
 <div class="app-issue__delete">
@@ -30,26 +50,4 @@
         <mat-icon [color]="'warn'">delete_outline</mat-icon>
     </button>
 </div>
-
-
-<mat-menu #menuPriority="matMenu">
-    @for (priority of selectablePriorities; track priority) {
-        @if (issue().priority !== priority) {
-            <button mat-menu-item (click)="$event.stopPropagation(); onSetPriority.emit(priority)">
-                <app-priority-list-item [priority]="priority"></app-priority-list-item>
-            </button>
-        }
-    }
-</mat-menu>
-
-
-<mat-menu #menuStage="matMenu">
-    @for (stage of selectableStage; track stage) {
-        @if (issue().stage !== stage) {
-            <button mat-menu-item (click)="$event.stopPropagation(); onSetStage.emit(stage)">
-                <app-stage-list-item [stage]="stage"></app-stage-list-item>
-            </button>
-        }
-    }
-</mat-menu>
 
