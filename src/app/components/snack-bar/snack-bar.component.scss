@@ -1,0 +1,13 @@
+.app-snack-bar {
+    display: flex;
+}
+
+.snack-bar--error {
+    --mdc-snackbar-container-color: var(--mat-sys-error-container);
+    --mdc-snackbar-supporting-text-color: var(--mat-sys-on-surface);
+}
+
+.snack-bar--normal {
+    --mdc-snackbar-supporting-text-color: var(--mat-sys-on-surface);
+    --mdc-snackbar-container-color: var(--mat-sys-surface-bright);
+}

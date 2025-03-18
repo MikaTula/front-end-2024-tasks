@@ -1,4 +1,4 @@
-import {Component, effect, input, linkedSignal, output, signal} from '@angular/core';
+import {Component, effect, inject, input, linkedSignal, output, signal} from '@angular/core';
 import {ISortRequest} from '../../interfaces/requests/sort-request';
 import {IssueSortBy} from '../../types/issue.types';
 import {MatButtonModule} from '@angular/material/button';
@@ -8,6 +8,8 @@ import {ProjectSortBy} from '../../types/project.types';
 import {ButtonSelectArrowComponent} from '../button-select-arrow/button-select-arrow.component';
 import {MatDivider} from '@angular/material/divider';
 import {IssueSortByPipe} from '../../pipes/issue-sort-by.pipe';
+import {NgIf} from '@angular/common';
+import {BreakpointService} from '../../services/breakpoint.service';
 
 @Component({
     selector: 'app-sorting',
@@ -18,6 +20,7 @@ import {IssueSortByPipe} from '../../pipes/issue-sort-by.pipe';
         ButtonSelectArrowComponent,
         MatDivider,
         IssueSortByPipe,
+        NgIf,
 
     ],
     templateUrl: './sorting.component.html',
@@ -34,6 +37,7 @@ export class SortingComponent {
 
     public readonly ascLabel = signal<string>('Ascending');
     public readonly descLabel = signal<string>('Descending');
+    protected readonly breakpointService = inject(BreakpointService);
 
     constructor() {
         effect(() => {

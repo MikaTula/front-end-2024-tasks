@@ -17,16 +17,19 @@
 
     grid: {
         template: {
-            columns: min-content 1fr 200px 40px 40px;
+            columns: min-content 1fr 1fr 40px 40px;
             rows: min-content min-content;
             areas: "project-code project-name project-created project-action-edit project-action-delete" "project-code project-name project-updated  project-action-edit project-action-delete";
         }
         column-gap: 16px;
     }
     --display: flex;
-    @media (width < common.$breakpoint-small) {
+    @media (max-width: common.$breakpoint-small) {
         & {
             grid-template-columns: min-content 1fr 40px 40px;
+            grid-template-areas:
+                "project-code project-name project-action-edit project-action-delete"
+            "project-code project-name  project-action-edit project-action-delete";
             --display: none;
         }
     }
@@ -73,6 +76,7 @@
             grid-area: project-created;
             display: var(--display);
             align-items: center;
+            overflow: hidden;
             @include _private-apply-font(body-small);
         }
 
@@ -80,6 +84,7 @@
             grid-area: project-updated;
             display: var(--display);
             align-items: center;
+            overflow: hidden;
             @include _private-apply-font(body-small);
         }
 
@@ -102,6 +107,7 @@
 }
 
 .ellipsis {
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

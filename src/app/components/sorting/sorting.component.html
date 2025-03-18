@@ -1,8 +1,9 @@
 <button [matMenuTriggerFor]="menu" mat-button>
     <div class="inner">
-        <mat-icon>{{ sortDir() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
-        {{ sort().sortBy | issueSortBy }}
-        <app-button-select-arrow></app-button-select-arrow>
+        <mat-icon *ngIf="!breakpointService.isXSmall()">{{ sortDir() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+        </mat-icon>
+        <div class="ellipsis">{{ sort().sortBy | issueSortBy }}</div>
+        <app-button-select-arrow *ngIf="!breakpointService.isXSmall()"></app-button-select-arrow>
     </div>
 </button>
 

@@ -7,6 +7,9 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 })
 export class BreakpointService {
     public currentRange = signal<BreakpointView>(BreakpointView.Large);
+    public isXSmall = computed<boolean>(() =>
+        this.currentRange() === BreakpointView.XSmall
+    );
     public isSmall = computed<boolean>(() =>
         this.currentRange() === BreakpointView.Small
     );
@@ -23,14 +26,18 @@ export class BreakpointService {
     constructor() {
         this._breakpointObserver.observe(
             [
-                '(max-width: 399.98px)',
+                '(max-width: 359.98px)',
+                '(min-width: 360px) and (max-width: 399.98px)',
                 '(min-width: 400px) and (max-width: 899.98px)',
                 '(min-width: 900px)'
             ]
         )
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe((state: BreakpointState) => {
-                if (state.breakpoints['(max-width: 399.98px)']) {
+                if (state.breakpoints['(max-width: 359.98px)']) {
+                    this.currentRange.set(BreakpointView.XSmall);
+                }
+                if (state.breakpoints['(min-width: 360px) and (max-width: 399.98px)']) {
                     this.currentRange.set(BreakpointView.Small);
                 }
                 if (state.breakpoints['(min-width: 400px) and (max-width: 899.98px)']) {
@@ -40,24 +47,11 @@ export class BreakpointService {
                     this.currentRange.set(BreakpointView.Large);
                 }
 
-
-                // if (this._breakpointObserver.isMatched(['(max-width: 499.98px)'])) {
-                //     this.currentRange.set(BreakpointView.Small);
-                //     console.log(BreakpointView.Small)
-                // }
-                // if (this._breakpointObserver.isMatched(['(min-width: 400px) and (max-width: 899.98px)'])) {
-                //     this.currentRange.set(BreakpointView.Medium);
-                //     console.log(BreakpointView.Medium)
-                // }
-                // if (this._breakpointObserver.isMatched(['(max-width: 900px)'])) {
-                //     this.currentRange.set(BreakpointView.Large);
-                //     console.log(BreakpointView.Large)
-                // }
             });
     }
 
 }
 
 export enum BreakpointView {
-    'Small' = 'Small', 'Medium' = 'Medium', 'Large' = 'Large'
+    'XSmall' = 'XSmall', 'Small' = 'Small', 'Medium' = 'Medium', 'Large' = 'Large'
 }

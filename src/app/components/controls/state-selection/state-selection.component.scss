@@ -1,3 +1,11 @@
 .inner {
     white-space: nowrap;
+    display: flex;
+}
+
+.ellipsis {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

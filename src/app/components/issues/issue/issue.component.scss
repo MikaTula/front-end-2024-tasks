@@ -6,7 +6,8 @@
     overflow: hidden;
     isolation: isolate;
     cursor: pointer;
-    min-width: 160px;
+    min-width: 250px;
+    width: 100%;
 
     grid: {
         template: {
@@ -27,6 +28,19 @@
             grid: {
                 template: {
                     columns: 90px 1fr 80px 1fr;
+                    rows: min-content min-content;
+                    areas: "name name name name" "created-on created-on created-on created-on" "stage state priority delete"
+                }
+                column-gap: 16px;
+            }
+        }
+    }
+
+    @media (width < common.$breakpoint-x-small) {
+        & {
+            grid: {
+                template: {
+                    columns: 24px 1fr 40px 1fr;
                     rows: min-content min-content;
                     areas: "name name name name" "created-on created-on created-on created-on" "stage state priority delete"
                 }

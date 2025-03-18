@@ -10,6 +10,7 @@ import {ISortRequest} from '../interfaces/requests/sort-request';
 import {IProjectFilterRequest} from '../interfaces/requests/project/project-filter-request';
 import {ProjectRootService} from './project-root.service';
 import {CommonEventEnum} from '../enums/common-event.enum';
+import {SnackBarService} from './snack-bar.service';
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +18,7 @@ import {CommonEventEnum} from '../enums/common-event.enum';
 export class ProjectService {
     private readonly _http = inject(HttpClient);
     private readonly _projectRootService = inject(ProjectRootService);
+    private readonly _snackBarService = inject(SnackBarService);
 
     private readonly _apiPath = '/api/v1.0/projects';
 
@@ -49,19 +51,22 @@ export class ProjectService {
 
     public createProject(request: IProjectRequest): Observable<IProject> {
         return this._http.post<IProject>(this._apiPath, JSON.stringify(request)).pipe(
-            tap(() => this._projectRootService.event$.next(CommonEventEnum.created))
+            tap(() => this._projectRootService.event$.next(CommonEventEnum.created)),
+            tap(() => this._snackBarService.openSnackBar('Create Project'))
         );
     }
 
     public updateProject(id: string, request: IProjectRequest): Observable<IProject> {
         return this._http.put<IProject>(`${this._apiPath}/${id}`, JSON.stringify(request)).pipe(
-            tap(() => this._projectRootService.event$.next(CommonEventEnum.created))
+            tap(() => this._projectRootService.event$.next(CommonEventEnum.created)),
+            tap(() => this._snackBarService.openSnackBar('Update Project'))
         );
     }
 
     public delete(id: string): Observable<void> {
         return this._http.delete<void>(`${this._apiPath}/${id}`).pipe(
-            tap(() => this._projectRootService.event$.next(CommonEventEnum.deleted))
+            tap(() => this._projectRootService.event$.next(CommonEventEnum.deleted)),
+            tap(() => this._snackBarService.openSnackBar('Delete Project'))
         );
     }
 

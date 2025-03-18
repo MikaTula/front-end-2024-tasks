@@ -8,9 +8,17 @@
     </div>
 </div>
 
-<div class="app-project__created-on">Created:&nbsp;<i>{{ project().createdOn | relativeTime }}</i></div>
+<div class="app-project__created-on">
 
-<div class="app-project__modified-on">Modified:&nbsp;<i>{{ project().modifiedOn | relativeTime }}</i></div>
+    <div class="ellipsis">Created: {{ project().createdOn | relativeTime }}</div>
+
+</div>
+
+<div class="app-project__modified-on">
+
+    <div class="ellipsis">Modified: {{ project().modifiedOn | relativeTime }}</div>
+
+</div>
 
 <div class="app-project__actions-edit">
     <button (click)="$event.stopImmediatePropagation();onEdit.emit(project().id)" aria-label="Edit project"

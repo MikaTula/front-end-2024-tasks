@@ -1,7 +1,7 @@
 <button [matMenuTriggerFor]="menu" mat-button>
     <div class="inner">
-        State
-        <app-button-select-arrow></app-button-select-arrow>
+        <div class="ellipsis">State</div>
+        <app-button-select-arrow *ngIf="!breakpointService.isXSmall()"></app-button-select-arrow>
     </div>
 </button>
 

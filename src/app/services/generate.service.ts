@@ -4,9 +4,10 @@ import {MenuIssueDataSource} from '../data-sources/menu-issue.data-source';
 import {ProjectService} from './project.service';
 import {IssueService} from './issue.service';
 import {forkJoin, of} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {switchMap, tap} from 'rxjs/operators';
 import {faker} from '@faker-js/faker/locale/en';
 import {selectablePriorities} from '../types/issue.types';
+import {SnackBarService} from './snack-bar.service';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +17,7 @@ export class GenerateService {
     private _projectDataSource = new MenuProjectDataSource();
     private _issueService = inject(IssueService);
     private _issueDataSource = new MenuIssueDataSource();
+    private _snackBarService = inject(SnackBarService);
 
     regenerate() {
         forkJoin([
@@ -51,6 +53,7 @@ export class GenerateService {
                     return forkJoin(issues);
                 }
             ),
+            tap(() => this._snackBarService.openSnackBar('Data was generated'))
         ).subscribe();
 
     }

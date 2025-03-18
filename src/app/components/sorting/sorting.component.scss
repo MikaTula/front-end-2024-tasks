@@ -1,5 +1,11 @@
 .inner {
-    white-space: nowrap;
     display: flex;
     align-items: center;
+}
+
+.ellipsis {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

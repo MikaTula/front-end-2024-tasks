@@ -8,7 +8,7 @@
 
 <div class="app-issue__stage">
     <app-stage-list-item (click)="$event.stopPropagation()" [matMenuTriggerFor]="menuStage"
-                         [showLabel]="!breakpointService.isMedium()"
+                         [showLabel]="breakpointService.isLarge() || breakpointService.isSmall()"
                          [stage]="issue().stage"></app-stage-list-item>
 </div>
 
@@ -20,7 +20,7 @@
 <div class="app-issue__priority">
     <app-priority-list-item (click)="$event.stopPropagation()" [matMenuTriggerFor]="menuPriority"
                             [priority]="issue().priority"
-                            [showLabel]="!breakpointService.isMedium()"
+                            [showLabel]="breakpointService.isLarge() || breakpointService.isSmall()"
     ></app-priority-list-item>
 </div>
 

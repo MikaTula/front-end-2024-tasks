@@ -1,7 +1,7 @@
 <button [matMenuTriggerFor]="menu" mat-button>
     <div class="inner">
         Priorities
-        <app-button-select-arrow></app-button-select-arrow>
+        <app-button-select-arrow *ngIf="!breakpointService.isXSmall()"></app-button-select-arrow>
     </div>
 </button>
 

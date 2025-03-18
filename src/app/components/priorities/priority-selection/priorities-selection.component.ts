@@ -1,10 +1,12 @@
-import {Component, output, signal} from '@angular/core';
+import {Component, inject, output, signal} from '@angular/core';
 import {IssuePriority, selectablePriorities} from '../../../types/issue.types';
-import {ButtonSelectArrowComponent} from '../../button-select-arrow/button-select-arrow.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {PriorityListItemComponent} from '../priority-list-item/priority-list-item.component';
+import {BreakpointService} from '../../../services/breakpoint.service';
+import {ButtonSelectArrowComponent} from '../../button-select-arrow/button-select-arrow.component';
+import {NgIf} from '@angular/common';
 
 @Component({
     selector: 'app-priorities-selection',
@@ -12,8 +14,9 @@ import {PriorityListItemComponent} from '../priority-list-item/priority-list-ite
         MatMenuModule,
         MatButtonModule,
         MatIconModule,
+        PriorityListItemComponent,
         ButtonSelectArrowComponent,
-        PriorityListItemComponent
+        NgIf
     ],
     templateUrl: './priorities-selection.component.html',
     styleUrl: './priorities-selection.component.scss'
@@ -23,6 +26,7 @@ export class PrioritiesSelectionComponent {
     public change = output<IssuePriority[]>();
     public readonly selectablePriorities = selectablePriorities
     private readonly selectedPriorities = signal<IssuePriority[]>([]);
+    protected readonly breakpointService = inject(BreakpointService);
 
     public isSelected(priority: IssuePriority): boolean {
         return this.selectedPriorities().indexOf(priority) > -1;

@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import dayjs, {Dayjs} from 'dayjs';
 import {IRefreshRequest} from '../interfaces/requests/auth/refresh.request';
 import {ISignUpRequest} from '../interfaces/requests/auth/sign-up-request.interface';
+import {SnackBarService} from './snack-bar.service';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +17,7 @@ export class AuthService {
 
     private readonly _http = inject(HttpClient);
     private readonly _router = inject(Router);
+    private _snackBarService = inject(SnackBarService);
 
     private readonly _apiPath = '/api/v1.0/auth';
     private refreshInProgress: boolean = false;
@@ -94,7 +96,7 @@ export class AuthService {
     }
 
     public renewAuth(): Observable<void> {
-        if(this._accessTokenExpiresAt()?.subtract(1, 'minute').isAfter(dayjs())) return of();
+        if (this._accessTokenExpiresAt()?.subtract(1, 'minute').isAfter(dayjs())) return of();
 
         let request: IRefreshRequest = {
             refreshToken: this._refreshToken(),
@@ -109,7 +111,7 @@ export class AuthService {
     }
 
     public addAuthorizationHeader(requestHeaders: HttpHeaders): HttpHeaders {
-        if(!this.isAuthorized()) return requestHeaders;
+        if (!this.isAuthorized()) return requestHeaders;
         return requestHeaders.set('Authorization', `Bearer ${this._accessToken()}`);
     }
 
@@ -150,7 +152,7 @@ export class AuthService {
         this._http.request(request).subscribe({
             next: response => subscriber.next(response),
             error: error => {
-                if(error.status === 401) this.signOut();
+                if (error.status === 401) this.signOut();
                 subscriber.error(error);
             },
             complete: () => subscriber.complete()

@@ -11,6 +11,7 @@ import {ICreateIssueRequest, IUpdateIssueRequest} from '../interfaces/requests/i
 import {IssueRootService} from './issue-root.service';
 import {CommonEventEnum} from '../enums/common-event.enum';
 import {IssuePriority, IssueStage, IssueState} from '../types/issue.types';
+import {SnackBarService} from './snack-bar.service';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,7 @@ import {IssuePriority, IssueStage, IssueState} from '../types/issue.types';
 export class IssueService {
     private readonly _http = inject(HttpClient);
     private readonly _issueRootService = inject(IssueRootService);
-
+    private readonly _snackBarService = inject(SnackBarService);
 
     private readonly _apiPath = '/api/v1.0/issues';
 
@@ -74,13 +75,15 @@ export class IssueService {
 
     public createIssue(request: ICreateIssueRequest): Observable<IIssueListResponse> {
         return this._http.post<IIssueListResponse>(this._apiPath, JSON.stringify(request)).pipe(
-            tap(() => this._issueRootService.event$.next(CommonEventEnum.updated))
+            tap(() => this._issueRootService.event$.next(CommonEventEnum.updated)),
+            tap(() => this._snackBarService.openSnackBar('Create Issue'))
         );
     }
 
     public updateIssue(id: string, request: IUpdateIssueRequest): Observable<string> {
         return this._http.put<string>(`${this._apiPath}/${id}`, JSON.stringify(request)).pipe(
-            tap(() => this._issueRootService.event$.next(CommonEventEnum.updated))
+            tap(() => this._issueRootService.event$.next(CommonEventEnum.updated)),
+            tap(() => this._snackBarService.openSnackBar('Update Issue'))
         );
     }
 
@@ -108,7 +111,8 @@ export class IssueService {
 
     public delete(id: string): Observable<void> {
         return this._http.delete<void>(`${this._apiPath}/${id}`).pipe(
-            tap(() => this._issueRootService.event$.next(CommonEventEnum.deleted))
+            tap(() => this._issueRootService.event$.next(CommonEventEnum.deleted)),
+            tap(() => this._snackBarService.openSnackBar('Delete Issue'))
         );
     }
 }
