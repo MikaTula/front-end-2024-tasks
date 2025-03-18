@@ -8,17 +8,25 @@
             </button>
         }
     </mat-form-field>
-    <button (click)="createProject()" *ngIf="!isOneProject()" mat-flat-button>Create Project</button>
-    <button (click)="createIssue()" mat-flat-button>Create Issue</button>
+    <button (click)="createProject()"
+            *ngIf="(!breakpointService.isSmall()) && isAllProject()" mat-flat-button>
+        Create Project
+    </button>
+    <button (click)="createIssue()" *ngIf="breakpointService.isLarge()" mat-flat-button>Create Issue</button>
 </div>
 
 <div class="container">
 
     <div class="heading">
-        <mat-chip-listbox (change)="onStateChanged($event)" [value]="selectedState()">
-            <mat-chip-option value="Open">Open</mat-chip-option>
-            <mat-chip-option value="Closed">Closed</mat-chip-option>
-        </mat-chip-listbox>
+        @if (breakpointService.isLarge()) {
+            <mat-chip-listbox (change)="onStateChanged($event)"
+                              [value]="selectedState()">
+                <mat-chip-option value="Open">Open</mat-chip-option>
+                <mat-chip-option value="Closed">Closed</mat-chip-option>
+            </mat-chip-listbox>
+        } @else {
+            <app-state-selection (change)="onStateChangedValue($event)"></app-state-selection>
+        }
 
         <app-projects-selection (change)="selectedProjectIds.set($event)" *ngIf="!isOneProject()"
         ></app-projects-selection>

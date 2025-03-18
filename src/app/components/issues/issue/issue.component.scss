@@ -6,6 +6,7 @@
     overflow: hidden;
     isolation: isolate;
     cursor: pointer;
+    min-width: 160px;
 
     grid: {
         template: {
@@ -18,6 +19,19 @@
     @media (width < common.$breakpoint-medium) {
         & {
             grid-template-columns: min-content 1fr 24px min-content 40px min-content;
+        }
+    }
+
+    @media (width < common.$breakpoint-small) {
+        & {
+            grid: {
+                template: {
+                    columns: 90px 1fr 80px 1fr;
+                    rows: min-content min-content;
+                    areas: "name name name name" "created-on created-on created-on created-on" "stage state priority delete"
+                }
+                column-gap: 16px;
+            }
         }
     }
 
@@ -41,28 +55,7 @@
 
     .app-issue__project-code {
         grid-area: project-code;
-        //white-space: nowrap;
-        //position: relative;
-        //box-sizing: border-box;
-        //place-self: center;
-        //overflow: hidden;
-        //
-        //width: 40px;
-        //height: 40px;
-        //padding: 4px;
-        //
-        //border-radius: var(--mat-sys-corner-small);
-        //background-color: var(--mat-sys-primary-container);
-        //color: var(--mat-sys-on-primary-container);
-        //
-        //&::after {
-        //    content: '';
-        //    position: absolute;
-        //    inset-inline: 0;
-        //    bottom: 0;
-        //    height: 4px;
-        //    background-color: var(--mat-sys-primary);
-        //}
+
     }
 
     .app-issue__name {
@@ -78,6 +71,7 @@
 
         color: var(--mat-sys-on-surface-variant);
         font-size: 12px;
+        overflow: hidden;
     }
 
     .app-issue__stage {
@@ -109,4 +103,8 @@
     }
 }
 
-
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

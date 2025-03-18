@@ -1,9 +1,9 @@
 import {Component, output, signal} from '@angular/core';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
-import {ButtonSelectArrowComponent} from '../button-select-arrow/button-select-arrow.component';
+import {ButtonSelectArrowComponent} from '../../button-select-arrow/button-select-arrow.component';
 import {MatIconModule} from '@angular/material/icon';
-import {MenuProjectDataSource} from '../../data-sources/menu-project.data-source';
+import {MenuProjectDataSource} from '../../../data-sources/menu-project.data-source';
 
 @Component({
     selector: 'app-projects-selection',

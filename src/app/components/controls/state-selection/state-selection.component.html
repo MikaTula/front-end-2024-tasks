@@ -1,0 +1,15 @@
+<button [matMenuTriggerFor]="menu" mat-button>
+    <div class="inner">
+        State
+        <app-button-select-arrow></app-button-select-arrow>
+    </div>
+</button>
+
+<mat-menu #menu="matMenu">
+    @for (state of issueStateVariants; track state) {
+        <button mat-menu-item (click)="onItemClick(state)">
+            <mat-icon>{{ isSelected(state) ? 'check' : '' }}</mat-icon>
+            {{ state }}
+        </button>
+    }
+</mat-menu>

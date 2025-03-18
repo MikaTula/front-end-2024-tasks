@@ -8,6 +8,7 @@
     grid-template-rows: 1fr min-content;
     grid-auto-rows: auto;
     justify-content: space-between;
+    grid-gap: 12px;
     height: 100%;
 }
 
@@ -17,6 +18,8 @@
 
 .virtual-example-viewport {
     height: calc(100% - 24px - 16px);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 
     @media (width < common.$breakpoint-medium) {
         & {
@@ -31,6 +34,7 @@
     align-items: center;
     cursor: pointer;
     border-radius: 1000px;
+
     @media (width < common.$breakpoint-medium) {
         justify-content: center;
         &__title {
@@ -62,7 +66,15 @@ mat-list-item {
         [matListItemTitle] {
             display: none;
         }
-        display: grid;
+        ::ng-deep {
+            .mdc-list-item__content {
+                display: none;
+            }
+        }
+        mat-icon {
+            padding: 0
+        }
+        display: flex;
         justify-content: center;
         align-items: center;
 

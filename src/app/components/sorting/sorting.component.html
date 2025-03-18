@@ -1,7 +1,9 @@
 <button [matMenuTriggerFor]="menu" mat-button>
-    <mat-icon>{{ sortDir() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
-    {{ sort().sortBy | issueSortBy }}
-    <app-button-select-arrow></app-button-select-arrow>
+    <div class="inner">
+        <mat-icon>{{ sortDir() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+        {{ sort().sortBy | issueSortBy }}
+        <app-button-select-arrow></app-button-select-arrow>
+    </div>
 </button>
 
 <mat-menu #menu="matMenu">

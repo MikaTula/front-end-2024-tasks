@@ -1,8 +1,17 @@
 <mat-toolbar class="header">
+    <button mat-icon-button class="header__icon" aria-label="Menu"
+            (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
     <span class="header__link" routerLink="/">Mini Jira</span>
     <span class="filler"></span>
-    <button [matMenuTriggerFor]="menu" mat-button>
+    <button [matMenuTriggerFor]="menu" mat-button class="header__name">
         {{ authService.authData()?.name }}
+    </button>
+
+    <button mat-icon-button class="header__logout" aria-label="Logout"
+            (click)="authService.signOut()">
+        <mat-icon>exit_to_app</mat-icon>
     </button>
 
     <mat-menu #menu="matMenu">
@@ -17,3 +26,19 @@
 <main>
     <router-outlet/>
 </main>
+
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" class="sidenav-container__sidenav"
+                 [fixedInViewport]="true"
+                 [fixedTopGap]="4"
+                 [fixedBottomGap]="1">
+        <div class="sidenav-wrap">
+            <button mat-icon-button class="sidenav-wrap__icon" aria-label="Menu"
+                    (click)="sidenav.toggle()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <app-left-menu></app-left-menu>
+        </div>
+    </mat-sidenav>
+</mat-sidenav-container>
+

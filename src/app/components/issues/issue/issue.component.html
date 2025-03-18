@@ -2,10 +2,13 @@
     <!--    <app-code [code]="issue().projectCode" [name]=""></app-code>-->
 </div>
 <div class="app-issue__name">{{ issue().name }}</div>
-<div class="app-issue__created-on">{{ 'Created ' + (issue().createdOn | relativeTime) }}</div>
+<div class="app-issue__created-on">
+    <div class="ellipsis">{{ 'Created ' + (issue().createdOn | relativeTime) }}</div>
+</div>
 
 <div class="app-issue__stage">
-    <app-stage-list-item (click)="$event.stopPropagation()" [matMenuTriggerFor]="menuStage" [showLabel]="isVisible()"
+    <app-stage-list-item (click)="$event.stopPropagation()" [matMenuTriggerFor]="menuStage"
+                         [showLabel]="!breakpointService.isMedium()"
                          [stage]="issue().stage"></app-stage-list-item>
 </div>
 
@@ -17,14 +20,14 @@
 <div class="app-issue__priority">
     <app-priority-list-item (click)="$event.stopPropagation()" [matMenuTriggerFor]="menuPriority"
                             [priority]="issue().priority"
-                            [showLabel]="isVisible()"
+                            [showLabel]="!breakpointService.isMedium()"
     ></app-priority-list-item>
 </div>
 
 <div class="app-issue__delete">
     <button (click)="$event.stopPropagation();onDelete.emit()" aria-label="Delete project"
             mat-icon-button>
-        <mat-icon [color]="'warn'">delete</mat-icon>
+        <mat-icon [color]="'warn'">delete_outline</mat-icon>
     </button>
 </div>
 

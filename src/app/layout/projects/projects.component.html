@@ -8,12 +8,10 @@
             </button>
         }
     </mat-form-field>
-    <button (click)="createProject()" mat-flat-button>Create Project</button>
-
+    <button *ngIf="breakpointService.isLarge()" (click)="createProject()" mat-flat-button>Create Project</button>
 </div>
 
 <div class="container">
-
     <div class="heading">
         <div class="heading__label">Project List</div>
 

@@ -17,6 +17,8 @@ import {ProjectComponent} from '../../components/projects/project/project.compon
 import {PaginatorComponent} from '../../components/paginator/paginator.component';
 import {SortingComponent} from '../../components/sorting/sorting.component';
 import {projectSortVariants} from '../../types/project.types';
+import {BreakpointService} from '../../services/breakpoint.service';
+import {NgIf} from '@angular/common';
 
 
 @Component({
@@ -33,12 +35,14 @@ import {projectSortVariants} from '../../types/project.types';
         MatIcon,
         ProjectComponent,
         PaginatorComponent,
-        SortingComponent
+        SortingComponent,
+        NgIf
     ],
     templateUrl: './projects.component.html',
     styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent {
+    protected readonly breakpointService = inject(BreakpointService);
     public readonly dataSource = new ProjectDataSource();
     public readonly searchControl = new FormControl<string>(this.dataSource.filterRequest().searchTerm ?? '');
 

@@ -10,7 +10,8 @@
                 <mat-icon>arrow_drop_up</mat-icon>
             }
         </div>
-        <cdk-virtual-scroll-viewport [itemSize]="projectListItems().length" class="virtual-example-viewport">
+        <cdk-virtual-scroll-viewport [itemSize]="projectListItems().length" class="virtual-example-viewport"
+                                     [scrollLeft]="">
             <div [class.content-wrapper--active]="projectOpen"
                  [ngStyle]="{'--count-item': projectListItems().length}"
                  class="content-wrapper"
@@ -22,9 +23,10 @@
         </cdk-virtual-scroll-viewport>
     </div>
 </mat-nav-list>
-
 <mat-nav-list>
-    <div mat-subheader class="subheader">Actions</div>
+    <div mat-subheader class="subheader">
+        <span class="subheader__title">Actions</span>
+    </div>
     <mat-list-item (click)="generate()">
         <mat-icon matListItemIcon>restart_alt</mat-icon>
         <div matListItemTitle>ReGenerate Data</div>

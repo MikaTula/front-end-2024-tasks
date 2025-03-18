@@ -10,6 +10,7 @@
     height: 100%;
     grid-template-rows: 10% 1fr;
     grid-template-areas: "brand"  "content";
+    min-width: 400px;
 
     .brand {
         @include _private-apply-font(display-medium);

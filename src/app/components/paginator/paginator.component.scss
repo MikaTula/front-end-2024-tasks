@@ -2,4 +2,14 @@
     display: grid;
     justify-content: center;
     background-color: var(--mat-sys-surface-container-high);
+
+
+}
+
+.hide-text {
+    ::ng-deep {
+        .mat-mdc-paginator-page-size-label {
+            display: none;
+        }
+    }
 }

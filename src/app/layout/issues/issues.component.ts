@@ -11,7 +11,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatChipListboxChange, MatChipsModule} from '@angular/material/chips';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
-import {ProjectsSelectionComponent} from '../../components/projects-selection/projects-selection.component';
+import {ProjectsSelectionComponent} from '../../components/controls/projects-selection/projects-selection.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatIcon} from '@angular/material/icon';
 import {
@@ -23,6 +23,8 @@ import {IssuePopupService} from '../../services/issue.popup.service';
 import {PaginatorComponent} from '../../components/paginator/paginator.component';
 import {SortingComponent} from '../../components/sorting/sorting.component';
 import {IssueService} from '../../services/issue.service';
+import {BreakpointService} from '../../services/breakpoint.service';
+import {StateSelectionComponent} from '../../components/controls/state-selection/state-selection.component';
 
 @Component({
     selector: 'app-issues',
@@ -42,6 +44,7 @@ import {IssueService} from '../../services/issue.service';
         NgIf,
         PaginatorComponent,
         SortingComponent,
+        StateSelectionComponent,
 
     ],
     templateUrl: './issues.component.html',
@@ -60,6 +63,7 @@ export class IssuesComponent {
             return typeof (projectId) === 'string';
         }
     );
+    protected readonly isAllProject = signal<boolean>(false);
     private readonly _projectPopupService = inject(ProjectPopupService);
     private readonly _issuePopupService = inject(IssuePopupService);
     private readonly _issueService = inject(IssueService);
@@ -73,6 +77,8 @@ export class IssuesComponent {
         };
     });
 
+    protected readonly breakpointService = inject(BreakpointService);
+
     constructor() {
         effect(() => {
             if (!this.filterRequest()) return;
@@ -85,12 +91,19 @@ export class IssuesComponent {
                 this.selectedProjectIds.set([projectId])
             }
         });
+        effect(() => {
+            this.isAllProject.set(!this.isOneProject());
 
+        });
     }
 
     public onStateChanged(change: MatChipListboxChange) {
         if (!change.value) return;
         this.selectedState.set(change.value);
+    }
+
+    public onStateChangedValue(state: IssueState) {
+        this.selectedState.set(state);
     }
 
     public editIssue(id: string) {

@@ -1,4 +1,4 @@
-import {Component, inject, input, linkedSignal, output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
 import {MatRipple} from '@angular/material/core';
 import {RelativeTimePipe} from '../../../pipes/relative-time.pipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -9,7 +9,7 @@ import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {PriorityListItemComponent} from '../../priorities/priority-list-item/priority-list-item.component';
 import {StageListItemComponent} from '../../stages/stage-list-item/stage-list-item.component';
-import {BreakpointService, BreakpointView} from '../../../services/breakpoint.service';
+import {BreakpointService} from '../../../services/breakpoint.service';
 
 @Component({
     selector: 'app-issue',
@@ -44,11 +44,7 @@ export class IssueComponent {
     public readonly onSetStage = output<IssueStage>();
     public readonly onSetState = output<IssueState>();
     public readonly onDelete = output();
-    private readonly _breakpointObserver = inject(BreakpointService);
-    protected isVisible = linkedSignal<boolean>(() =>
-        this._breakpointObserver.currentRange() === BreakpointView.Medium ||
-        this._breakpointObserver.currentRange() === BreakpointView.Large
-    );
+    protected readonly breakpointService = inject(BreakpointService);
 
     protected onStateChanged(): void {
         this.onSetState.emit(this.issue().state === "Open" ? "Closed" : "Open");

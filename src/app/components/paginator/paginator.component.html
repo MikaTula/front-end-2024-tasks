@@ -4,6 +4,9 @@
                [pageIndex]="dataSource().pageRequest().pageNumber"
                [pageSizeOptions]="[5,10,25]"
                [pageSize]="dataSource().pageRequest().pageSize"
-               [showFirstLastButtons]="true"
-               aria-label="Select page">
+               [showFirstLastButtons]="breakpointService.isLarge()"
+               [hidePageSize]="breakpointService.isSmall()"
+               aria-label="Select page"
+               [class.hide-text]="!breakpointService.isLarge()">
 </mat-paginator>
+

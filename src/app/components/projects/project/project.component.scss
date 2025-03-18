@@ -1,4 +1,6 @@
-﻿@mixin _private-apply-font($type-scale) {
+﻿@use '../../../../scss/components/common' as common;
+
+@mixin _private-apply-font($type-scale) {
     font-size: var(--mat-sys-#{$type-scale}-size);
     font-weight: var(--mat-sys-#{$type-scale}-weight);
     letter-spacing: var(--mat-sys-#{$type-scale}-tracking);
@@ -20,6 +22,13 @@
             areas: "project-code project-name project-created project-action-edit project-action-delete" "project-code project-name project-updated  project-action-edit project-action-delete";
         }
         column-gap: 16px;
+    }
+    --display: flex;
+    @media (width < common.$breakpoint-small) {
+        & {
+            grid-template-columns: min-content 1fr 40px 40px;
+            --display: none;
+        }
     }
 
     padding: 8px 16px;
@@ -62,14 +71,14 @@
 
         &__created-on {
             grid-area: project-created;
-            display: flex;
+            display: var(--display);
             align-items: center;
             @include _private-apply-font(body-small);
         }
 
         &__modified-on {
             grid-area: project-updated;
-            display: flex;
+            display: var(--display);
             align-items: center;
             @include _private-apply-font(body-small);
         }

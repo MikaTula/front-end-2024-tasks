@@ -23,6 +23,10 @@ export const selectableStage: IssueStage[] = [
     'Backlog', 'ToDo', 'InProgress', 'Done'
 ];
 
+export const issueStateVariants: IssueState[] = [
+    "Open",
+    "Closed"
+];
 
 export function priorityClass(priority: IssuePriority) {
     switch (priority) {
