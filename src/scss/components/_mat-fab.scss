@@ -1,3 +1,5 @@
+@use 'common' as common;
+
 @mixin component() {
     [mat-fab] {
         position: fixed;
@@ -5,7 +7,12 @@
         bottom: 28px;
         opacity: 0;
         animation: mat-fab-anim 2s forwards;
-        
+        transition: bottom .3s;
+        @media (width < common.$breakpoint-small) {
+            & {
+                bottom: 80px;
+            }
+        }
     }
 
     @keyframes mat-fab-anim {
