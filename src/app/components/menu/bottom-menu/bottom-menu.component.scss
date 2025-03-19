@@ -1,0 +1,32 @@
+@use '../../../../scss/components/common' as common;
+
+:host {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    isolation: isolate;
+    @media (width < common.$breakpoint-small) {
+        & {
+            display: grid;
+        }
+    }
+}
+
+.bottom-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: min-content;
+    grid-auto-rows: auto;
+    justify-content: space-between;
+    grid-gap: 12px;
+    background-color: var(--mat-sys-surface-container);
+
+    &__item {
+        display: grid;
+        padding: 12px 8px;
+        justify-content: center;
+        align-items: center;
+    }
+
+}

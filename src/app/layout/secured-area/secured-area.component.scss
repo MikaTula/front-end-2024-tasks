@@ -35,6 +35,7 @@ main {
     @media (width < common.$breakpoint-small) {
         & {
             min-width: 300px;
+            padding-bottom: 60px;
         }
     }
 }

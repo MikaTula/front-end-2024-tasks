@@ -7,6 +7,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {LeftMenuComponent} from '../../components/menu/left-menu/left-menu.component';
 import {MatIcon} from '@angular/material/icon';
 import {MatSidenavContainer, MatSidenavModule} from '@angular/material/sidenav';
+import {BottomMenuComponent} from '../../components/menu/bottom-menu/bottom-menu.component';
 
 @Component({
     selector: 'app-secured-area',
@@ -19,7 +20,8 @@ import {MatSidenavContainer, MatSidenavModule} from '@angular/material/sidenav';
         RouterLink,
         MatIcon,
         MatSidenavContainer,
-        MatSidenavModule
+        MatSidenavModule,
+        BottomMenuComponent
 
     ],
     templateUrl: './secured-area.component.html',
